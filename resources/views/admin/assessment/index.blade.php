@@ -29,26 +29,13 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Assessments Type</th>
                             <th>Activity Level</th>
                             <th>Date</th>
                             <th>Weight (kg)</th>
                             <th>Total Fat (%)</th>
-                            <th>Right Arm ((%)</th>
-                            <th>Left Arm (%)</th>
-                            <th>Right Leg (%)</th>
-                            <th>Left Leg (%)</th>
-                            <th>Trunk (%)</th>
-                            <th>Muscle Mass (kg)</th>
-                            <th>Right Arm Mass (kg)</th>
-                            <th>Left Arm Mass (kg)</th>
-                            <th>Right Leg Mass (kg)</th>
-                            <th>Left Leg Mass (kg)</th>
-                            <th>Trunk Mass (kg)</th>
-                            <th>Bone Mass (kg)</th>
                             <th>Metabolic Age</th>
-                            <th>Body Water ((%)</th>
                             <th>Visceral Fat (rating)</th>
+                            <th>Assessments Type</th>
                         </tr>
                         </thead>
 
@@ -56,6 +43,12 @@
                         @foreach($assessments as $key=>$val)
                             <tr>
                                 <td>{{$key + 1}}</td>
+                                <td>{{$val->activity_level}}</td>
+                                <td>{{$val->date}}</td>
+                                <td>{{$val->weight}}</td>
+                                <td>{{$val->total_fat}}</td>
+                                <td>{{$val->metabolic_age}}</td>
+                                <td>{{$val->visceral_fat}}</td>
                                 <td class="ass_type" data-type="{{$val->type}}">
                                     @if($val->type == 0 AND $key == 0)
                                         First Assessment
@@ -67,25 +60,6 @@
 
                                     @endif
                                 </td>
-                                <td>{{$val->activity_level}}</td>
-                                <td>{{$val->date}}</td>
-                                <td>{{$val->weight}}</td>
-                                <td>{{$val->total_fat}}</td>
-                                <td>{{$val->right_arm}}</td>
-                                <td>{{$val->left_arm}}</td>
-                                <td>{{$val->right_leg}}</td>
-                                <td>{{$val->left_leg}}</td>
-                                <td>{{$val->trunk}}</td>
-                                <td>{{$val->muscle_mass}}</td>
-                                <td>{{$val->right_arm_mass}}</td>
-                                <td>{{$val->left_arm_mass}}</td>
-                                <td>{{$val->right_leg_mass}}</td>
-                                <td>{{$val->left_leg_mass}}</td>
-                                <td>{{$val->trunk_mass}}</td>
-                                <td>{{$val->bone_mass}}</td>
-                                <td>{{$val->metabolic_age}}</td>
-                                <td>{{$val->body_water}}</td>
-                                <td>{{$val->visceral_fat}}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -242,26 +216,13 @@
         $('#datatable').DataTable({
             columns: [
                 { data: 'id' },
-                { data: 'type' },
                 { data: 'activity_level' },
                 { data: 'date' },
                 { data: 'weight' },
                 { data: 'total_fat' },
-                { data: 'right_arm' },
-                { data: 'left_arm' },
-                { data: 'right_leg' },
-                { data: 'left_leg' },
-                { data: 'trunk' },
-                { data: 'muscle_mass' },
-                { data: 'right_arm_mass' },
-                { data: 'left_arm_mass' },
-                { data: 'right_leg_mass' },
-                { data: 'left_leg_mass' },
-                { data: 'trunk_mass' },
-                { data: 'bone_mass' },
                 { data: 'metabolic_age' },
-                { data: 'body_water' },
                 { data: 'visceral_fat' },
+                { data: 'type' },
             ]
         });
     </script>
@@ -345,7 +306,6 @@
                         url: '/summary/assessments',
                         data: {id:id},
                         success: function (res) {
-                            console.log(res)
                              $('#datatable').DataTable().clear();
                              $('#datatable').DataTable().rows.add(res).draw();
                         }
