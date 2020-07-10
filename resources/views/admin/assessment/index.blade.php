@@ -63,6 +63,8 @@
                                         Projection
                                     @elseif($val->type === 1)
                                         Current Assessment
+                                        @else
+                                        1
                                     @endif
                                 </td>
                                 <td>{{$val->activity_level}}</td>
@@ -335,8 +337,6 @@
                 });
             });
 
-
-
             $('.summary').change(function() {
                 if($(this).is(":checked")) {
                     let id= $("input[name=id]").val();
@@ -346,10 +346,8 @@
                         data: {id:id},
                         success: function (res) {
                             console.log(res)
-
                              $('#datatable').DataTable().clear();
                              $('#datatable').DataTable().rows.add(res).draw();
-
                         }
                     });
                 }
@@ -357,11 +355,6 @@
                     location.reload()
                 }
             });
-
-            // $('#upload-new-data').on('click', function () {
-            //
-            // });
-
         })
     </script>
 @endpush

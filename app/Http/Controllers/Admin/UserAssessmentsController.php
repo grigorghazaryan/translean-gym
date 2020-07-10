@@ -84,7 +84,15 @@ class UserAssessmentsController extends Controller
         $projection['type'] = 'Projection';
         $projection['id'] = '3';
 
-        $data = array($first, $current, $projection);
+        $data = array($current, $projection);
+
+        if (!empty($first)){
+            $first['type'] = 'First Assessment';
+            $first['id'] = '1';
+            $data[] = $first;
+        }
+
+        $data = array($current, $projection);
         return response()->json($data);
     }
 
