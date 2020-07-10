@@ -57,14 +57,14 @@
                             <tr>
                                 <td>{{$key + 1}}</td>
                                 <td class="ass_type" data-type="{{$val->type}}">
-                                    @if($val->type === 0 AND $key === 0)
+                                    @if($val->type == 0 AND $key == 0)
                                         First Assessment
-                                    @elseif($val->type === 2)
+                                    @elseif($val->type == 2)
                                         Projection
-                                    @elseif($val->type === 1)
+                                    @elseif($val->type == 1)
                                         Current Assessment
-                                        @else
-                                        1
+                                    @else
+
                                     @endif
                                 </td>
                                 <td>{{$val->activity_level}}</td>
