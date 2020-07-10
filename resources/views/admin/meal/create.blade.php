@@ -21,6 +21,40 @@
 
                             <div class="foods"></div>
 
+                            <div class="form-group">
+                                <label for="total_mass">Total Mass</label>
+                                <input type="number" class="form-control" id="total_mass" placeholder="Total Mass" name="total_mass" readonly required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_carbs">Total Carbs</label>
+                                <input type="number" class="form-control" id="total_carbs" placeholder="Total Carbs" name="total_carbs" readonly required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_fat">Total Fat</label>
+                                <input type="number" class="form-control" id="total_fat" placeholder="Total Fat" name="total_fat" readonly required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_proteins">Total Proteins</label>
+                                <input type="number" class="form-control" id="total_proteins" placeholder="Total Proteins" name="total_proteins" readonly required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_calories">Total Calories</label>
+                                <input type="number" class="form-control" id="total_calories" placeholder="Total Calories" name="total_calories" readonly required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_ph">Total PH</label>
+                                <input type="number" class="form-control" id="total_ph" placeholder="Total PH" name="total_ph" readonly required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_glycemic_load">Total Glycemic Load</label>
+                                <input type="number" class="form-control" id="total_glycemic_load" placeholder="Total Glycemic Load" name="total_glycemic_load" readonly required>
+                            </div>
 
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
                                 Save {{$title}}
@@ -66,9 +100,9 @@
                 }
 
                 let element = `
-                                <div class="form-group row_${row}">
+                                <div class="form-group row_${row} food_items">
                                     <label for="name">Food</label>
-                                    <select name="food[]" id="food" class="form-control m-b-20">
+                                    <select name="food[]" id="food_sel" class="form-control m-b-20">
                                         ${food}
                                     </select>
                                     <input type="number" name="mass[]" id="mass" class="form-control m-b-20" placeholder="Mass" required>
@@ -88,10 +122,65 @@
                 let food_row = $(this).data('row');
                 $('.row_'+food_row).remove();
                 row--;
+                calculate();
             });
 
+            $(document).find(".food_items").each(function() {
+                $(document).on('change', '#food_sel', function() {
+                    calculate();
+                });
+                $(document).on('input', '#mass', function() {
+                    calculate();
+                });
+            });
+
+            function calculate() {
+                let total_mass = 0;
+                let total_carbs = 0;
+                let total_fat = 0;
+                let total_proteins = 0;
+                let total_calories = 0;
+                let total_ph = 0;
+                let total_glycemic_load = 0;
+
+                // other variable
+                var ph_sum = 0;
+                var ph_d = 0;
+                var gl_sum = 0;
+                var gl_d = 0;
 
 
+                $(document).find(".food_items").each(function() {
+                    total_mass += parseFloat($(this).find("#mass").val());
+                    total_carbs += parseFloat($(this).find("#food_sel").find(":selected").data('carbs'))
+                    total_fat += parseFloat($(this).find("#food_sel").find(":selected").data('fat'))
+                    total_proteins += parseFloat($(this).find("#food_sel").find(":selected").data('proteins'))
+                    total_calories += parseFloat($(this).find("#food_sel").find(":selected").data('calories'))
+
+                    let mass =  parseFloat($(this).find("#mass").val());
+                    let nums = $('.food_items').length;
+
+                    // ph calculate Average (Sum of (Food Item Mass * PH) / total Mass)
+                    let ph = Number($(this).find("#food_sel").find(":selected").data('ph'));
+                    ph_sum += parseFloat(mass * ph);
+                    ph_d += ph_sum / total_mass;
+                    total_ph = parseFloat(ph_d /nums).toFixed(2);
+
+                    // total_glycemic_load calculate Average (Sum of (Food Item Mass * Glycemic Load) / total Mass)
+                    let gl = parseFloat($(this).find("#food_sel").find(":selected").data('glycemic_load'));
+                    gl_sum += parseFloat(mass * gl);
+                    gl_d += gl_sum / total_mass;
+                    total_glycemic_load = parseFloat(gl_d / nums).toFixed(2);
+
+                    $('#total_mass').val(total_mass);
+                    $('#total_carbs').val(total_carbs);
+                    $('#total_fat').val(total_fat);
+                    $('#total_proteins').val(total_proteins);
+                    $('#total_calories').val(total_calories);
+                    $('#total_ph').val(total_ph);
+                    $('#total_glycemic_load').val(total_glycemic_load);
+                });
+            }
 
         })
     </script>

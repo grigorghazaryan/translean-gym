@@ -39,4 +39,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::resource('/foods', 'FoodController');
     Route::resource('/meals', 'MealController');
     Route::resource('/settings', 'AdminsController');
+
+    Route::get('/assessments/{id}', 'UserAssessmentsController@index');
+    Route::post('/assessments/{id}', 'UserAssessmentsController@store');
+    Route::post('/summary/assessments', 'UserAssessmentsController@summary');
+
+
+
+
 });

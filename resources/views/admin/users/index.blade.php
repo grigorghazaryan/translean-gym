@@ -31,9 +31,22 @@
                                 <td>{{$key + 1}}</td>
                                 <td>{{$val->name}}</td>
                                 <td>{{$val->dob}}</td>
-                                <td>{{$val->gender}}</td>
+                                <td>
+                                    {{App\Model\User::GENDER[$val->gender]}}
+                                </td>
                                 <td>{{$val->height}}</td>
                                 <td>
+
+
+                                    <a href="{{"/assessments/".$val->id}}" data-toggle="tooltip"
+                                       data-placement="top" title="Assessments" class="btn btn-warning btn-circle tooltip-warning">
+                                        <i class="fas fa-sort-amount-up"></i>
+                                    </a>
+
+                                    <a href="{{$route."/".$val->id."/edit"}}" data-toggle="tooltip"
+                                       data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
 
                                     <form style="display: inline-block" action="{{ $route."/".$val->id }}"
                                           method="post" id="work-for-form">

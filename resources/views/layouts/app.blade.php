@@ -91,11 +91,11 @@
                 </li>
 
                 <li><a href="/activities" class="waves-effect"><i class="mdi mdi-pulse fa-fw"></i>
-                        <span class="hide-menu">Activates</span></a>
+                        <span class="hide-menu">Activities</span></a>
                 </li>
 
                 <li><a href="/foods" class="waves-effect"><i class="mdi mdi-carrot fa-fw"></i>
-                        <span class="hide-menu">Foods</span></a>
+                        <span class="hide-menu">Food Items</span></a>
                 </li>
 
                 <li><a href="/meals" class="waves-effect"><i class="mdi mdi-silverware-variant fa-fw"></i>

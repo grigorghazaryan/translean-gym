@@ -15,7 +15,6 @@ class UserController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -28,7 +27,6 @@ class UserController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -41,8 +39,7 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -66,8 +63,7 @@ class UserController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\MOdel\User  $user
+     * @param \App\MOdel\User $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -77,31 +73,44 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\MOdel\User  $user
+     * @param \App\MOdel\User $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
     {
-        //
+        $title = self::TITLE;
+        $route = self::ROUTE;
+        $action = "Edit";
+        return view(self::FOLDER . ".edit", compact("title", "route", 'action', "user"));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MOdel\User  $user
+     * @param \Illuminate\Http\Request $request
+     * @param \App\MOdel\User          $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            "name" => "required",
+            "dob" => "required",
+            "gender" => "required|numeric",
+            "height" => "required|numeric",
+        ]);
+
+        $user->name = $request->name;
+        $user->dob = $request->dob;
+        $user->gender = $request->gender;
+        $user->height = $request->height;
+        $user->save();
+
+        return redirect(self::ROUTE);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\MOdel\User  $user
+     * @param \App\MOdel\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)

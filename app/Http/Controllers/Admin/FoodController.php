@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class FoodController extends Controller
 {
     const FOLDER = "admin.food";
-    const TITLE = "Foods";
+    const TITLE = "Food Items";
     const ROUTE = "/foods";
 
     /**
