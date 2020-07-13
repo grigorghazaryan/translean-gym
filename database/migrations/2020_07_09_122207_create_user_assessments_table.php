@@ -33,6 +33,7 @@ class CreateUserAssessmentsTable extends Migration
             $table->float('right_leg_mass')->comment('kg');
             $table->float('left_leg_mass')->comment('kg');
             $table->float('trunk_mass')->comment('kg');
+            $table->float('lean_mass')->comment('kg, bone mass + muscle mass');
 
             $table->float('bone_mass')->comment('kg');
             $table->integer('metabolic_age');

@@ -11,11 +11,11 @@
             </button>
         </div>
         <div class="col-md-2 text-center summ">
-                <span> Summary All</span>
-                <label class="switch">
-                    <input type="checkbox" class="summary">
-                    <span class="slider round"></span>
-                </label>
+            <span> Summary All</span>
+            <label class="switch">
+                <input type="checkbox" class="summary">
+                <span class="slider round"></span>
+            </label>
         </div>
     </div>
 
@@ -31,10 +31,18 @@
                             <th>Id</th>
                             <th>Activity Level</th>
                             <th>Date</th>
-                            <th>Weight (kg)</th>
-                            <th>Total Fat (%)</th>
-                            <th>Metabolic Age</th>
-                            <th>Visceral Fat (rating)</th>
+                            <th>Weight (kg) <i class="fas fa-chart-bar weight m-l-10" data-toggle="modal"
+                                               data-target="#graffModal"></i></th>
+                            <th>Total Fat (%) <i class="fas fa-chart-bar fat m-l-10" data-toggle="modal"
+                                                 data-target="#graffModal"></i></th>
+                            <th>Metabolic Age <i class="fas fa-chart-bar age m-l-10" data-toggle="modal"
+                                                 data-target="#graffModal"></i></th>
+                            <th>Visceral Fat (rating) <i class="fas fa-chart-bar visceral m-l-10" data-toggle="modal"
+                                                         data-target="#graffModal"></i></th>
+                            <th>Muscle Mass (kg) <i class="fas fa-chart-bar muscle m-l-10" data-toggle="modal"
+                                                    data-target="#graffModal"></i></th>
+                            <th>Lean Mass (kg) <i class="fas fa-chart-bar lean m-l-10" data-toggle="modal"
+                                                  data-target="#graffModal"></i></th>
                             <th>Assessments Type</th>
                         </tr>
                         </thead>
@@ -49,6 +57,8 @@
                                 <td>{{$val->total_fat}}</td>
                                 <td>{{$val->metabolic_age}}</td>
                                 <td>{{$val->visceral_fat}}</td>
+                                <td>{{$val->muscle_mass}}</td>
+                                <td>{{$val->lean_mass}}</td>
                                 <td class="ass_type" data-type="{{$val->type}}">
                                     @if($val->type == 0 AND $key == 0)
                                         First Assessment
@@ -70,6 +80,7 @@
     </div>
 
 
+    {{--    assessment and projection modal --}}
     <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -85,8 +96,8 @@
 
                     <div class="row form-inline">
                         <div class="col-md-6">
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Activity Level</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Activity Level</label>
                                 <select class="form-control" name="activity_level">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -96,8 +107,8 @@
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Date</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Date</label>
                                 <input type="date" class="form-control" name="date" required>
                             </div>
                         </div>
@@ -106,71 +117,76 @@
                     <hr>
                     <div class="row form-inline">
                         <div class="col-md-6">
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Weight (kg)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Weight (kg)</label>
                                 <input type="number" class="form-control" name="weight" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Total Fat (%)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Total Fat (%)</label>
                                 <input type="number" class="form-control" name="total_fat" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Right Arm (%)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Right Arm (%)</label>
                                 <input type="number" class="form-control" name="right_arm" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Left Arm (%)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Left Arm (%)</label>
                                 <input type="number" class="form-control" name="left_arm" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Right Leg (%)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Right Leg (%)</label>
                                 <input type="number" class="form-control" name="right_leg" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Left Leg (%)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Left Leg (%)</label>
                                 <input type="number" class="form-control" name="left_leg" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Trunk (%)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Trunk (%)</label>
                                 <input type="number" class="form-control" name="trunk" required>
                             </div>
                         </div>
                         {{--right--}}
                         <div class="col-md-6">
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Muscle Mass (kg)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Muscle Mass (kg)</label>
                                 <input type="number" class="form-control" name="muscle_mass" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Right Arm Mass (kg)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Right Arm Mass (kg)</label>
                                 <input type="number" class="form-control" name="right_arm_mass" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Left Arm Mass (kg)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Left Arm Mass (kg)</label>
                                 <input type="number" class="form-control" name="left_arm_mass" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Right Leg Mass (kg)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Right Leg Mass (kg)</label>
                                 <input type="number" class="form-control" name="right_leg_mass" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Left Leg Mass (kg)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Left Leg Mass (kg)</label>
                                 <input type="number" class="form-control" name="left_leg_mass" required>
                             </div>
 
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Trunk Mass (kg)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Trunk Mass (kg)</label>
                                 <input type="number" class="form-control" name="trunk_mass" required>
+                            </div>
+
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Lean Mass (kg)</label>
+                                <input type="number" class="form-control" name="lean_mass" disabled required>
                             </div>
 
                         </div>
@@ -179,23 +195,23 @@
                     <hr>
                     <div class="row form-inline">
                         <div class="col-md-6">
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Bone Mass (kg)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Bone Mass (kg)</label>
                                 <input type="number" class="form-control" name="bone_mass" required>
                             </div>
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Metabolic age</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Metabolic age</label>
                                 <input type="number" class="form-control" name="metabolic_age" required>
                             </div>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Body Water (%)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Body Water (%)</label>
                                 <input type="number" class="form-control" name="body_water" required>
                             </div>
-                            <div class="form-group m-b-20">
-                                <label for="exampleInputAmount">Visceral Fat (rating)</label>
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>Visceral Fat (rating)</label>
                                 <input type="number" class="form-control" name="visceral_fat" required>
                             </div>
                         </div>
@@ -208,25 +224,45 @@
             </div>
         </div>
     </div>
+
+    {{--    grafics modal--}}
+    <div class="modal fade" id="graffModal" tabindex="-1" role="dialog" aria-labelledby="graffModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title-graff" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="chart-container body-graff" style="position: relative; height:500px; width:850px">
+                        <canvas id="myChart" width="400" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('footer')
     <script src="{{asset('assets/plugins/swal/sweetalert.min.js')}}"></script>
-    <script>
+    <script src="{{asset('assets/plugins/chart.js/Chart.min.js')}}"></script>
+    <script !src="">
         $('#datatable').DataTable({
             columns: [
-                { data: 'id' },
-                { data: 'activity_level' },
-                { data: 'date' },
-                { data: 'weight' },
-                { data: 'total_fat' },
-                { data: 'metabolic_age' },
-                { data: 'visceral_fat' },
-                { data: 'type' },
-            ]
+                {data: 'id'},
+                {data: 'activity_level'},
+                {data: 'date'},
+                {data: 'weight'},
+                {data: 'total_fat'},
+                {data: 'metabolic_age'},
+                {data: 'visceral_fat'},
+                {data: 'muscle_mass'},
+                {data: 'lean_mass'},
+                {data: 'type'},
+            ],
         });
     </script>
-
     <script>
         $(document).ready(function () {
             $('.assessment').click(function () {
@@ -241,8 +277,21 @@
                 $('.error_modal').empty();
             });
 
+            $('input[name=bone_mass]').on('input', function () {
+                let bone_mass = parseFloat($(this).val());
+                let muscle_mass = parseFloat($('input[name=muscle_mass]').val());
+                $('input[name=lean_mass]').val(bone_mass + muscle_mass)
+            });
+
+            $('input[name=muscle_mass]').on('input', function () {
+                let bone_mass = parseFloat($('input[name=bone_mass]').val());
+                let muscle_mass = parseFloat($(this).val());
+                $('input[name=lean_mass]').val(bone_mass + muscle_mass)
+            });
+
+
             $('.ass_type').each(function (index, item) {
-                if($(item).data('type') === 2){
+                if ($(item).data('type') === 2) {
                     $('.projection').attr('disabled', true);
                     return false;
                 }
@@ -255,7 +304,7 @@
             });
 
             $(".save_modal").click(function (e) {
-                let id= $("input[name=id]").val();
+                let id = $("input[name=id]").val();
                 let data = {};
                 data = {
                     'id': id,
@@ -278,6 +327,7 @@
                     'metabolic_age': $("input[name=metabolic_age]").val(),
                     'body_water': $("input[name=body_water]").val(),
                     'visceral_fat': $("input[name=visceral_fat]").val(),
+                    'lean_mass': $("input[name=lean_mass]").val(),
                     'type': $("input[name=type]").val()
                 };
 
@@ -298,29 +348,145 @@
                 });
             });
 
-            $('.summary').change(function() {
-                if($(this).is(":checked")) {
-                    let id= $("input[name=id]").val();
+            $('.summary').change(function () {
+                if ($(this).is(":checked")) {
+                    let id = $("input[name=id]").val();
                     $.ajax({
                         type: 'POST',
                         url: '/summary/assessments',
-                        data: {id:id},
+                        data: {id: id},
                         success: function (res) {
-                             $('#datatable').DataTable().clear();
-                             $('#datatable').DataTable().rows.add(res).draw();
+                            $('#datatable').DataTable().clear();
+                            $('#datatable').DataTable().rows.add(res).draw();
                         }
                     });
-                }
-                else{
+                } else {
                     location.reload()
                 }
             });
         })
     </script>
+
+    {{--grafics --}}
+    <script !src="">
+
+        $('.weight').click(function () {
+            $('.modal-title-graff').html('Weight');
+            $('.body-graff').empty();
+            $('.body-graff').append(`<canvas id="myChart" width="400" height="400"></canvas>`);
+            chartCreate('weight');
+        });
+
+        $('.fat').click(function () {
+            $('.modal-title-graff').html('Total Fat');
+            $('.body-graff').empty();
+            $('.body-graff').append(`<canvas id="myChart" width="400" height="400"></canvas>`);
+            chartCreate('total_fat');
+        });
+
+        $('.age').click(function () {
+            $('.modal-title-graff').html('Metabolic Age');
+            $('.body-graff').empty();
+            $('.body-graff').append(`<canvas id="myChart" width="400" height="400"></canvas>`);
+            chartCreate('age');
+        });
+
+        $('.visceral').click(function () {
+            $('.modal-title-graff').html('Visceral Fat');
+            $('.body-graff').empty();
+            $('.body-graff').append(`<canvas id="myChart" width="400" height="400"></canvas>`);
+            chartCreate('visceral_fat');
+        });
+
+        $('.muscle').click(function () {
+            $('.modal-title-graff').html('Muscle Mass');
+            $('.body-graff').empty();
+            $('.body-graff').append(`<canvas id="myChart" width="400" height="400"></canvas>`);
+            chartCreate('muscle');
+        });
+
+        $('.lean').click(function () {
+            $('.modal-title-graff').html('Lean Mass');
+            $('.body-graff').empty();
+            $('.body-graff').append(`<canvas id="myChart" width="400" height="400"></canvas>`);
+            chartCreate('lean');
+        });
+
+        function chartCreate(type) {
+            let id = $("input[name=id]").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/getAssessment',
+                data: {id: id},
+                success: function (res) {
+                    let labels = [];
+                    let data = []
+
+                    for (let i = 0; i < res.length; i++) {
+                        labels.push(res[i].date);
+                        if (type === 'weight') {
+                            data.push(res[i].weight);
+                        } else if (type === 'total_fat') {
+                            data.push(res[i].total_fat);
+                        } else if (type === 'age') {
+                            data.push(res[i].metabolic_age);
+                        } else if (type === 'visceral_fat') {
+                            data.push(res[i].visceral_fat);
+                        } else if (type === 'muscle') {
+                            data.push(res[i].muscle_mass);
+                        } else if (type === 'lean') {
+                            data.push(res[i].lean_mass);
+                        }
+                    }
+
+                    new Chart(document.getElementById("myChart"),
+                        {
+                            "type": "line",
+                            "data": {
+                                "labels": labels,
+                                "datasets": [{
+                                    "data": data,
+                                    "fill": true,
+                                    "borderColor": '#3b8e34',
+                                    "backgroundColor": '#e5e5e57d',
+                                    "lineTension": 0.01,
+                                }]
+                            },
+                            options: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltips: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            return tooltipItem.yLabel;
+                                        }
+                                    }
+                                },
+                                maintainAspectRatio: false,
+                            }
+                        });
+                }
+            });
+        }
+    </script>
 @endpush
 
 @push('header')
     <style>
+        .modal label {
+            width: 40%;
+        }
+
+        th i {
+            color: #fb9905;
+        }
+
+        th i:hover {
+            cursor: pointer;
+        }
+
         .switch {
             position: relative;
             display: inline-block;
@@ -328,7 +494,9 @@
             height: 34px;
         }
 
-        .switch input {display:none;}
+        .switch input {
+            display: none;
+        }
 
         .slider {
             position: absolute;
@@ -377,7 +545,7 @@
             border-radius: 50%;
         }
 
-        .summ{
+        .summ {
             display: flex;
             justify-content: space-evenly;
             align-items: center;
@@ -386,6 +554,7 @@
             font-size: 20px;
             padding: 5px;
         }
+
     </style>
 @endpush
 

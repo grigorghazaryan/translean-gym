@@ -24,7 +24,7 @@ class UserAssessmentsController extends Controller
         $assessments = UserAssessments::where('user_id', $id)->orderBy('type', 'ASC')->get();
         $title = self::TITLE;
 
-        return view(self::FOLDER.".index", compact('user', 'assessments', 'title'));
+        return view(self::FOLDER . ".index", compact('user', 'assessments', 'title'));
     }
 
 
@@ -34,11 +34,12 @@ class UserAssessmentsController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->type == 1){
+        if ($request->type == 1) {
             UserAssessments::where('user_id', $request->id)
                 ->where('type', 1)
                 ->update(['type' => 0]);
         }
+
 
         $user_assessment = new UserAssessments;
         $user_assessment->user_id = $request->id;
@@ -61,10 +62,11 @@ class UserAssessmentsController extends Controller
         $user_assessment->metabolic_age = $request->metabolic_age;
         $user_assessment->body_water = $request->body_water;
         $user_assessment->visceral_fat = $request->visceral_fat;
+        $user_assessment->lean_mass = $request->lean_mass;
         $user_assessment->type = $request->type;
         $user_assessment->save();
 
-        return response()->json(['success'=>'true']);
+        return response()->json(['success' => 'true']);
     }
 
     /**
@@ -72,28 +74,43 @@ class UserAssessmentsController extends Controller
      */
     public function summary(Request $request)
     {
-        $first = UserAssessments::where(array('user_id'=> $request->id, 'type' => 0))->first();
-        $first['type'] = 'First Assessment';
-        $first['id'] = '1';
+        $data = array();
 
-        $current = UserAssessments::where(array('user_id'=> $request->id, 'type' => 1))->first();
-        $current['type'] = 'Current Assessment';
-        $current['id'] = '2';
+        $first = UserAssessments::where(array('user_id' => $request->id, 'type' => 0))->first();
+        $current = UserAssessments::where(array('user_id' => $request->id, 'type' => 1))->first();
+        $projection = UserAssessments::where(array('user_id' => $request->id, 'type' => 2))->first();
 
-        $projection = UserAssessments::where(array('user_id'=> $request->id, 'type' => 2))->first();
-        $projection['type'] = 'Projection';
-        $projection['id'] = '3';
-
-        $data = array($current, $projection);
-
-        if (!empty($first)){
+        if (!empty($first)) {
             $first['type'] = 'First Assessment';
             $first['id'] = '1';
             $data[] = $first;
         }
 
-        $data = array($current, $projection);
+        if (!empty($current)) {
+            $current['type'] = 'Current Assessment';
+            $current['id'] = '2';
+            $data[] = $current;
+        }
+
+        if (!empty($projection)) {
+            $projection['type'] = 'Projection';
+            $projection['id'] = '3';
+            $data[] = $projection;
+        }
+
         return response()->json($data);
+    }
+
+
+    public function getAjax(Request $request)
+    {
+        $id = $request->id;
+        $assessments = UserAssessments::where('user_id', $id)
+            ->where('type', 0)
+            ->orwhere('type', 1)
+            ->orderBy('date', 'ASC')
+            ->get();
+        return response()->json($assessments);
     }
 
 }

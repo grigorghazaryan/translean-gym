@@ -37,7 +37,7 @@
                                 @error('carbs')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="carbs"
+                                <input type="number" step=".0001" class="form-control" id="carbs"
                                        placeholder="Carbs" name="carbs" value="{{$food->carbs}}">
                             </div>
 
@@ -46,7 +46,7 @@
                                 @error('fat')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="fat"
+                                <input type="number" step=".0001" class="form-control" id="fat"
                                        placeholder="Fat" name="fat" value="{{$food->fat}}">
                             </div>
 
@@ -55,7 +55,7 @@
                                 @error('proteins')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="proteins"
+                                <input type="number" step=".0001" class="form-control" id="proteins"
                                        placeholder="Proteins" name="proteins" value="{{$food->proteins}}">
                             </div>
 
@@ -64,7 +64,7 @@
                                 @error('calories')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="calories"
+                                <input type="number" step=".0001" class="form-control" id="calories"
                                        placeholder="Calories" name="calories" value="{{$food->calories}}" readonly>
                             </div>
 
@@ -73,7 +73,7 @@
                                 @error('fiber')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="fiber"
+                                <input type="number" step=".0001" class="form-control" id="fiber"
                                        placeholder="Fiber" name="fiber" value="{{$food->fiber}}">
                             </div>
 
@@ -82,7 +82,7 @@
                                 @error('glycemic_index')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="glycemic_index"
+                                <input type="number" step=".0001" class="form-control" id="glycemic_index"
                                        placeholder="Glycemic Index" name="glycemic_index"
                                        value="{{$food->glycemic_index}}">
                             </div>
@@ -92,7 +92,7 @@
                                 @error('glycemic_load')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="glycemic_load"
+                                <input type="number" step=".0001" class="form-control" id="glycemic_load"
                                        placeholder="Glycemic Load" name="glycemic_load"
                                        value="{{$food->glycemic_load}}" readonly>
                             </div>
@@ -102,7 +102,7 @@
                                 @error('ph')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="ph"
+                                <input type="number" step=".0001" class="form-control" id="ph"
                                        placeholder="PH" name="ph" value="{{$food->ph}}">
                             </div>
 

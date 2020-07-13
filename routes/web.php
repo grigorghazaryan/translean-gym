@@ -43,6 +43,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::get('/assessments/{id}', 'UserAssessmentsController@index');
     Route::post('/assessments/{id}', 'UserAssessmentsController@store');
     Route::post('/summary/assessments', 'UserAssessmentsController@summary');
+    Route::post('/getAssessment', 'UserAssessmentsController@getAjax');
 
 
 
