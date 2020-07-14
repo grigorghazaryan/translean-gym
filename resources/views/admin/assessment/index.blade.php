@@ -205,7 +205,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6 down">
                             <div class="form-group col-md-12 m-b-20">
                                 <label>Body Water (%)</label>
                                 <input type="number" class="form-control" name="body_water" required>
@@ -269,12 +269,17 @@
                 $('.modal-title').html('Assessment');
                 $('.type').val(1);
                 $('.error_modal').empty();
+                $('.glycogen_store').remove();
             });
 
             $('.projection').click(function () {
                 $('.modal-title').html('Projection');
                 $('.type').val(2);
                 $('.error_modal').empty();
+                $('.down').append(`<div class="form-group col-md-12 m-b-20 glycogen_store">
+                                        <label>Glycogen Store (gr.)</label>
+                                        <input type="number" class="form-control" name="glycogen_store" disabled>
+                                    </div>`)
             });
 
             $('input[name=bone_mass]').on('input', function () {
@@ -289,6 +294,10 @@
                 $('input[name=lean_mass]').val(bone_mass + muscle_mass)
             });
 
+            $('input[name=weight]').on('input', function () {
+                let weight = parseFloat($(this).val());
+                $('input[name=glycogen_store]').val(weight * 5.6)
+            });
 
             $('.ass_type').each(function (index, item) {
                 if ($(item).data('type') === 2) {
@@ -328,6 +337,7 @@
                     'body_water': $("input[name=body_water]").val(),
                     'visceral_fat': $("input[name=visceral_fat]").val(),
                     'lean_mass': $("input[name=lean_mass]").val(),
+                    'glycogen_store': $("input[name=glycogen_store]").val(),
                     'type': $("input[name=type]").val()
                 };
 

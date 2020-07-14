@@ -39,6 +39,7 @@ class CreateUserAssessmentsTable extends Migration
             $table->integer('metabolic_age');
             $table->float('body_water')->comment('%');
             $table->integer('visceral_fat')->comment('rating');
+            $table->float('glycogen_store')->nullable()->comment('weight * 5.6 display in grams');
 
             $table->integer('type')->comment('assessments or projections');
 

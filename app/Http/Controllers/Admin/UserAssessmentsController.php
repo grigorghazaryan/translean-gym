@@ -63,6 +63,7 @@ class UserAssessmentsController extends Controller
         $user_assessment->body_water = $request->body_water;
         $user_assessment->visceral_fat = $request->visceral_fat;
         $user_assessment->lean_mass = $request->lean_mass;
+        $user_assessment->glycogen_store = $request->glycogen_store ?? NULL;
         $user_assessment->type = $request->type;
         $user_assessment->save();
 
