@@ -277,7 +277,7 @@
                 $('.type').val(2);
                 $('.error_modal').empty();
                 $('.down').append(`<div class="form-group col-md-12 m-b-20 glycogen_store">
-                                        <label>Glycogen Store (gr.)</label>
+                                        <label>Glycogen Store (gr)</label>
                                         <input type="number" class="form-control" name="glycogen_store" disabled>
                                     </div>`)
             });
