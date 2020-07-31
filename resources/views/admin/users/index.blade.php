@@ -37,10 +37,14 @@
                                 <td>{{$val->height}}</td>
                                 <td>
 
-
                                     <a href="{{"/assessments/".$val->id}}" data-toggle="tooltip"
                                        data-placement="top" title="Assessments" class="btn btn-warning btn-circle tooltip-warning">
                                         <i class="fas fa-sort-amount-up"></i>
+                                    </a>
+
+                                    <a href="{{"/day/".$val->id}}" data-toggle="tooltip"
+                                       data-placement="top" title="Day View" class="btn btn-success btn-circle tooltip-success">
+                                        <i class="fas fa-eye"></i>
                                     </a>
 
                                     <a href="{{$route."/".$val->id."/edit"}}" data-toggle="tooltip"

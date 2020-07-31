@@ -46,6 +46,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::post('/getAssessment', 'UserAssessmentsController@getAjax');
 
 
+    Route::get('/day/{id}', 'DayController@index');
 
 
 });
