@@ -21,84 +21,100 @@
                                        placeholder="Name" name="name" value="{{$meal->name}}">
                             </div>
 
-                            <div class="foods">
-                                @foreach($meal->attachedFoods as $key=>$val)
-                                    <div class="form-group row_{{$key}} food_items">
-                                        <label for="name">Food</label>
-                                        <select name="food[]" id="food_sel" class="form-control m-b-20">
-                                            @foreach($foods as $k=>$v)
-                                                <option value="{{$v->id}}"
-                                                        data-carbs="{{$v->carbs}}"
-                                                        data-fat="{{$v->fat}}"
-                                                        data-proteins="{{$v->proteins}}"
-                                                        data-calories="{{$v->calories}}"
-                                                        data-fiber="{{$v->fiber}}"
-                                                        data-glycemic_index="{{$v->glycemic_index}}"
-                                                        data-glycemic_load="{{$v->glycemic_load}}"
-                                                        data-ph="{{$v->ph}}"
-                                                        data-quantity_measure="{{$v->quantity_measure}}"
-                                                    @if($v->id === $val->food_id) selected @endif
-                                                >
-                                                    {{$v->name}}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <input type="number" name="mass[]" id="mass" class="form-control m-b-20" placeholder="Mass" value="{{$val->mass}}" required>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label for="total_mass">Total Mass</label>
+                                    <input type="number" class="form-control" id="total_mass" placeholder="Total Mass"
+                                           name="total_mass" readonly required value="{{$meal->mass}}">
+                                </div>
 
-                                        @if($key === 0)
-                                            <button type="button" class="btn btn-primary col-md-12 m-b-20 plus"><i class="fa fa-plus"></i></button>
-                                        @else
-                                            <button type="button" class="btn btn-danger col-md-12 m-b-20 minus" data-row="{{$key}}"><i class="fa fa-minus"></i></button>
-                                        @endif
+                                <div class="form-group col-md-2">
+                                    <label for="total_carbs">Total Carbs</label>
+                                    <input type="number" class="form-control" id="total_carbs" placeholder="Total Carbs"
+                                           name="total_carbs" readonly required value="{{$meal->carbs}}">
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_fat">Total Fat</label>
+                                    <input type="number" class="form-control" id="total_fat" placeholder="Total Fat"
+                                           name="total_fat" readonly required value="{{$meal->fat}}">
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_proteins">Total Proteins</label>
+                                    <input type="number" class="form-control" id="total_proteins"
+                                           placeholder="Total Proteins" name="total_proteins" readonly required
+                                           value="{{$meal->proteins}}">
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_calories">Total Calories</label>
+                                    <input type="number" class="form-control" id="total_calories"
+                                           placeholder="Total Calories" name="total_calories" readonly required
+                                           value="{{$meal->calories}}">
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_ph">Total PH</label>
+                                    <input type="number" class="form-control" id="total_ph" placeholder="Total PH"
+                                           name="total_ph" readonly required value="{{$meal->ph}}">
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_glycemic_load">Total Glycemic Load</label>
+                                    <input type="number" class="form-control" id="total_glycemic_load"
+                                           placeholder="Total Glycemic Load" name="total_glycemic_load" readonly
+                                           required value="{{$meal->glycemic_load}}">
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="foods">
+                                        @foreach($meal->attachedFoods as $key=>$val)
+                                            <div class="form-group row_{{$key}} food_items col-md-2">
+                                                <label for="name">Food</label>
+                                                <select name="food[]" id="food_sel" class="form-control m-b-20">
+                                                    @foreach($foods as $k=>$v)
+                                                        <option value="{{$v->id}}"
+                                                                data-carbs="{{$v->carbs}}"
+                                                                data-fat="{{$v->fat}}"
+                                                                data-proteins="{{$v->proteins}}"
+                                                                data-calories="{{$v->calories}}"
+                                                                data-fiber="{{$v->fiber}}"
+                                                                data-glycemic_index="{{$v->glycemic_index}}"
+                                                                data-glycemic_load="{{$v->glycemic_load}}"
+                                                                data-ph="{{$v->ph}}"
+                                                                data-quantity_measure="{{$v->quantity_measure}}"
+                                                                @if($v->id === $val->food_id) selected @endif
+                                                        >
+                                                            {{$v->name}}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="number" name="mass[]" id="mass" class="form-control m-b-20"
+                                                       placeholder="Mass" value="{{$val->mass}}" required>
+
+                                                <button type="button" class="btn btn-danger col-md-12 m-b-20 minus"
+                                                        data-row="{{$key}}"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                        @endforeach
+                                            <button type="button" class="btn btn-success col-md-2 m-b-20 plus"><i
+                                                    class="fa fa-plus"></i></button>
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="total_mass">Total Mass</label>
-                                <input type="number" class="form-control" id="total_mass" placeholder="Total Mass"
-                                       name="total_mass" readonly required value="{{$meal->mass}}">
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                                        Save {{$title}}
+                                    </button>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="total_carbs">Total Carbs</label>
-                                <input type="number" class="form-control" id="total_carbs" placeholder="Total Carbs"
-                                       name="total_carbs" readonly required value="{{$meal->carbs}}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total_fat">Total Fat</label>
-                                <input type="number" class="form-control" id="total_fat" placeholder="Total Fat"
-                                       name="total_fat" readonly required value="{{$meal->fat}}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total_proteins">Total Proteins</label>
-                                <input type="number" class="form-control" id="total_proteins"
-                                       placeholder="Total Proteins" name="total_proteins" readonly required value="{{$meal->proteins}}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total_calories">Total Calories</label>
-                                <input type="number" class="form-control" id="total_calories"
-                                       placeholder="Total Calories" name="total_calories" readonly required value="{{$meal->calories}}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total_ph">Total PH</label>
-                                <input type="number" class="form-control" id="total_ph" placeholder="Total PH"
-                                       name="total_ph" readonly required value="{{$meal->ph}}">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total_glycemic_load">Total Glycemic Load</label>
-                                <input type="number" class="form-control" id="total_glycemic_load"
-                                       placeholder="Total Glycemic Load" name="total_glycemic_load" readonly required value="{{$meal->glycemic_load}}">
-                            </div>
-
-                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
-                                Save {{$title}}
-                            </button>
                         </form>
                     </div>
                 </div>
@@ -106,6 +122,20 @@
         </div>
     </div>
 @endsection
+
+
+@push('header')
+    <style>
+        .plus {
+            height: 200px;
+            width: 200px;
+        }
+
+        .plus i {
+            font-size: 100px;
+        }
+    </style>
+@endpush
 
 @push('footer')
     <script !src="">
@@ -132,24 +162,18 @@
                             >${foods[i].name}</option>`
                 }
 
-                let btn = '';
-                if (row > 0) {
-                    btn = `<button type="button" class="btn btn-danger col-md-12 m-b-20 minus" data-row="${row}"><i class="fa fa-minus"></i></button>`
-                } else {
-                    btn = `<button type="button" class="btn btn-primary col-md-12 m-b-20 plus"><i class="fa fa-plus"></i></button>`
-                }
-
+                let btn = `<button type="button" class="btn btn-danger col-md-12 m-b-20 minus" data-row="${row}"><i class="fa fa-minus"></i></button>`
                 let element = `
-                                <div class="form-group row_${row} food_items">
+                                <div class="form-group row_${row} food_items col-md-2">
                                     <label for="name">Food</label>
                                     <select name="food[]" id="food_sel" class="form-control m-b-20">
                                         ${food}
                                     </select>
                                     <input type="number" name="mass[]" id="mass" class="form-control m-b-20" placeholder="Mass" required>
                                     ${btn}
-                                </div>`
+                                </div>`;
 
-                $('.foods').append(element);
+                $('.foods').prepend(element);
                 row++;
             }
 

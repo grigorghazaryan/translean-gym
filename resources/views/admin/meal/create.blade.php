@@ -19,46 +19,69 @@
                                        placeholder="Name" name="name" value="{{old('name')}}">
                             </div>
 
-                            <div class="foods"></div>
+                            <div class="form-row">
+                                <div class="form-group col-md-2">
+                                    <label for="total_mass">Total Mass</label>
+                                    <input type="number" class="form-control" id="total_mass" placeholder="Total Mass"
+                                           name="total_mass" readonly required>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="total_mass">Total Mass</label>
-                                <input type="number" class="form-control" id="total_mass" placeholder="Total Mass" name="total_mass" readonly required>
+                                <div class="form-group col-md-2">
+                                    <label for="total_carbs">Total Carbs</label>
+                                    <input type="number" class="form-control" id="total_carbs" placeholder="Total Carbs"
+                                           name="total_carbs" readonly required>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_fat">Total Fat</label>
+                                    <input type="number" class="form-control" id="total_fat" placeholder="Total Fat"
+                                           name="total_fat" readonly required>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_proteins">Total Proteins</label>
+                                    <input type="number" class="form-control" id="total_proteins"
+                                           placeholder="Total Proteins" name="total_proteins" readonly required>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_calories">Total Calories</label>
+                                    <input type="number" class="form-control" id="total_calories"
+                                           placeholder="Total Calories" name="total_calories" readonly required>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_ph">Total PH</label>
+                                    <input type="number" class="form-control" id="total_ph" placeholder="Total PH"
+                                           name="total_ph" readonly required>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="total_glycemic_load">Total Glycemic Load</label>
+                                    <input type="number" class="form-control" id="total_glycemic_load"
+                                           placeholder="Total Glycemic Load" name="total_glycemic_load" readonly
+                                           required>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="total_carbs">Total Carbs</label>
-                                <input type="number" class="form-control" id="total_carbs" placeholder="Total Carbs" name="total_carbs" readonly required>
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="foods">
+                                        <button type="button" class="btn btn-success col-md-2 m-b-20 plus"><i
+                                                class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="total_fat">Total Fat</label>
-                                <input type="number" class="form-control" id="total_fat" placeholder="Total Fat" name="total_fat" readonly required>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                                        Save {{$title}}
+                                    </button>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="total_proteins">Total Proteins</label>
-                                <input type="number" class="form-control" id="total_proteins" placeholder="Total Proteins" name="total_proteins" readonly required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total_calories">Total Calories</label>
-                                <input type="number" class="form-control" id="total_calories" placeholder="Total Calories" name="total_calories" readonly required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total_ph">Total PH</label>
-                                <input type="number" class="form-control" id="total_ph" placeholder="Total PH" name="total_ph" readonly required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total_glycemic_load">Total Glycemic Load</label>
-                                <input type="number" class="form-control" id="total_glycemic_load" placeholder="Total Glycemic Load" name="total_glycemic_load" readonly required>
-                            </div>
-
-                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
-                                Save {{$title}}
-                            </button>
                         </form>
                     </div>
                 </div>
@@ -66,6 +89,19 @@
         </div>
     </div>
 @endsection
+
+@push('header')
+    <style>
+        .plus {
+            height: 200px;
+            width: 200px;
+        }
+
+        .plus i {
+            font-size: 100px;
+        }
+    </style>
+@endpush
 
 @push('footer')
     <script !src="">
@@ -75,9 +111,9 @@
             let row = 0;
             add();
 
-            function add(){
+            function add() {
                 let food = '';
-                for (var i = 0; i < foods.length; i++){
+                for (var i = 0; i < foods.length; i++) {
                     food += `<option value="${foods[i].id}"
                              data-carbs="${foods[i].carbs}"
                              data-fat="${foods[i].fat}"
@@ -91,16 +127,9 @@
                             >${foods[i].name}</option>`
                 }
 
-                let btn = '';
-                if(row > 0){
-                    btn = `<button type="button" class="btn btn-danger col-md-12 m-b-20 minus" data-row="${row}"><i class="fa fa-minus"></i></button>`
-                }
-                else{
-                    btn = `<button type="button" class="btn btn-primary col-md-12 m-b-20 plus"><i class="fa fa-plus"></i></button>`
-                }
-
+                let btn = `<button type="button" class="btn btn-danger col-md-12 m-b-20 minus" data-row="${row}"><i class="fa fa-minus"></i></button>`
                 let element = `
-                                <div class="form-group row_${row} food_items">
+                                <div class="form-group col-md-2 row_${row} food_items">
                                     <label for="name">Food</label>
                                     <select name="food[]" id="food_sel" class="form-control m-b-20">
                                         ${food}
@@ -109,7 +138,7 @@
                                     ${btn}
                                 </div>`
 
-                $('.foods').append(element);
+                $('.foods').prepend(element);
                 row++;
             }
 
@@ -120,16 +149,16 @@
 
             $(document).on('click', '.minus', function () {
                 let food_row = $(this).data('row');
-                $('.row_'+food_row).remove();
+                $('.row_' + food_row).remove();
                 row--;
                 calculate();
             });
 
-            $(document).find(".food_items").each(function() {
-                $(document).on('change', '#food_sel', function() {
+            $(document).find(".food_items").each(function () {
+                $(document).on('change', '#food_sel', function () {
                     calculate();
                 });
-                $(document).on('input', '#mass', function() {
+                $(document).on('input', '#mass', function () {
                     calculate();
                 });
             });
@@ -150,21 +179,21 @@
                 var gl_d = 0;
 
 
-                $(document).find(".food_items").each(function() {
+                $(document).find(".food_items").each(function () {
                     total_mass += parseFloat($(this).find("#mass").val());
                     total_carbs += parseFloat($(this).find("#food_sel").find(":selected").data('carbs'))
                     total_fat += parseFloat($(this).find("#food_sel").find(":selected").data('fat'))
                     total_proteins += parseFloat($(this).find("#food_sel").find(":selected").data('proteins'))
                     total_calories += parseFloat($(this).find("#food_sel").find(":selected").data('calories'))
 
-                    let mass =  parseFloat($(this).find("#mass").val());
+                    let mass = parseFloat($(this).find("#mass").val());
                     let nums = $('.food_items').length;
 
                     // ph calculate Average (Sum of (Food Item Mass * PH) / total Mass)
                     let ph = Number($(this).find("#food_sel").find(":selected").data('ph'));
                     ph_sum += parseFloat(mass * ph);
                     ph_d += ph_sum / total_mass;
-                    total_ph = parseFloat(ph_d /nums).toFixed(2);
+                    total_ph = parseFloat(ph_d / nums).toFixed(2);
 
                     // total_glycemic_load calculate Average (Sum of (Food Item Mass * Glycemic Load) / total Mass)
                     let gl = parseFloat($(this).find("#food_sel").find(":selected").data('glycemic_load'));
