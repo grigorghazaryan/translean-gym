@@ -87,7 +87,7 @@
                                                                 data-glycemic_load="{{$v->glycemic_load}}"
                                                                 data-ph="{{$v->ph}}"
                                                                 data-quantity_measure="{{$v->quantity_measure}}"
-                                                                @if($v->id === $val->food_id) selected @endif
+                                                                @if($v->id == $val->food_id) selected @endif
                                                         >
                                                             {{$v->name}}
                                                         </option>
