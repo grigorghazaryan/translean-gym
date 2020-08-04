@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Model\Activity;
+use App\Model\Meal;
 use App\Model\User;
 use Illuminate\Http\Request;
 
@@ -20,6 +22,9 @@ class DayController extends Controller
         $user = User::find($id);
         $title = self::TITLE;
 
-        return view(self::FOLDER . ".index", compact('user','title'));
+        $activity = Activity::all();
+        $meals = Meal::all();
+
+        return view(self::FOLDER . ".index", compact('user','title', 'activity', 'meals'));
     }
 }
