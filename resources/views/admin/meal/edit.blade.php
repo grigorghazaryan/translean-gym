@@ -206,6 +206,7 @@
                 let total_calories = 0;
                 let total_ph = 0;
                 let total_glycemic_load = 0;
+                let food_mass = 0;
 
                 // other variable
                 var ph_sum = 0;
@@ -215,13 +216,16 @@
 
 
                 $(document).find(".food_items").each(function () {
-                    total_mass += parseFloat($(this).find("#mass").val());
-                    total_carbs += parseFloat($(this).find("#food_sel").find(":selected").data('carbs'))
-                    total_fat += parseFloat($(this).find("#food_sel").find(":selected").data('fat'))
-                    total_proteins += parseFloat($(this).find("#food_sel").find(":selected").data('proteins'))
-                    total_calories += parseFloat($(this).find("#food_sel").find(":selected").data('calories'))
 
                     let mass = parseFloat($(this).find("#mass").val());
+                    food_mass = parseFloat($(this).find("#food_sel").find(":selected").data('quantity_measure'));
+
+                    total_mass += parseFloat($(this).find("#mass").val());
+                    total_carbs += parseFloat($(this).find("#food_sel").find(":selected").data('carbs'))/food_mass*mass;
+                    total_fat += parseFloat($(this).find("#food_sel").find(":selected").data('fat'))/food_mass*mass;
+                    total_proteins += parseFloat($(this).find("#food_sel").find(":selected").data('proteins'))/food_mass*mass;
+                    total_calories += parseFloat($(this).find("#food_sel").find(":selected").data('calories'))/food_mass*mass;
+
                     let nums = $('.food_items').length;
 
                     // ph calculate Average (Sum of (Food Item Mass * PH) / total Mass)
