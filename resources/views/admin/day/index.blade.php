@@ -34,37 +34,7 @@
                                 <th colspan="1">Time</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <th>08:00</th>
-                            </tr>
-                            <tr>
-                                <th>09:00</th>
-                            </tr>
-                            <tr>
-                                <th>10:00</th>
-                            </tr>
-                            <tr>
-                                <th>11:00</th>
-                            </tr>
-                            <tr>
-                                <th>12:00</th>
-                            </tr>
-                            <tr>
-                                <th>13:00</th>
-                            </tr>
-                            <tr>
-                                <th>14:00</th>
-                            </tr>
-                            <tr>
-                                <th>15:00</th>
-                            </tr>
-                            <tr>
-                                <th>16:00</th>
-                            </tr>
-                            <tr>
-                                <th>17:00</th>
-                            </tr>
+                            <tbody class="time_body">
                             </tbody>
                         </table>
                     </div>
@@ -76,7 +46,7 @@
                                 <th scope="col">&nbsp;</th>
                             </tr>
                             </thead>
-                            <tbody class="font-sm">
+                            <tbody class="font-sm activity_body">
                             <tr>
                                 <th style="display: flex; justify-content: space-between; align-items: center;">
                                     Activity
@@ -85,17 +55,6 @@
                                     </button>
                                 </th>
                             </tr>
-                            <tr>
-                                <td style="display: flex; justify-content: space-between; align-items: center">
-                                    <div class="green">
-                                        Power Yoga
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-edit"></i>
-                                    </div>
-                                </td>
-                            </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -178,6 +137,7 @@
                                 <td>Protein&nbsp;(g)</td>
                                 <td>Protein&nbsp;Dig.</td>
                             </tr>
+
                             <tr>
                                 <td>15</td>
                                 <td>3.75</td>
@@ -212,26 +172,6 @@
                                     <span class="red">(access)</span>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    5.25
-                                    <span class="green">(loss)</span>
-                                </td>
-                                <td>
-                                    10
-                                    <span class="red">(access)</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    5.25
-                                    <span class="green">(loss)</span>
-                                </td>
-                                <td>
-                                    10
-                                    <span class="red">(access)</span>
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -250,10 +190,28 @@
                     <h4 class="modal-title">Activity</h4>
                 </div>
                 <div class="modal-body">
-                    todo ...
+                    <div class="form-group">
+                        <label for="activity_list">Choose Activity</label>
+                        <select name="activity" id="activity_list" class="activity_list form-control">
+                            @foreach($activity as $key => $val)
+                                <option value="{{$val->id}}">{{$val->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="activity_from">From</label>
+                            <input type="text" class="clockpicker activity_from form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="activity_to">To</label>
+                            <input type="text" class="clockpicker activity_to form-control">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-success activity_save" data-dismiss="modal">Save</button>
                 </div>
             </div>
 
@@ -262,17 +220,34 @@
 
     <div id="meal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Meals</h4>
                 </div>
                 <div class="modal-body">
-                   to do ....
+                    <div class="form-group">
+                        <label for="activity_list">Choose Meal</label>
+                        <select name="activity" id="activity_list" class="activity_list form-control">
+                            @foreach($meals as $key => $val)
+                                <option value="{{$val->id}}">{{$val->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="meal_from">From</label>
+                            <input type="text" class="clockpicker meal_from form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="meal_to">To</label>
+                            <input type="text" class="clockpicker meal_to form-control">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-success meal_save" data-dismiss="modal">Save</button>
                 </div>
             </div>
 
@@ -282,9 +257,48 @@
 @endsection
 
 @push('footer')
-    {{--date switcher script--}}
+    {{--Clock pickers for activity choose and meals choose--}}
+    <script src="{{asset('assets/plugins/clockpicker/dist/jquery-clockpicker.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('.activity_from').clockpicker({
+                autoclose: true,
+            });
+            $('.activity_to').clockpicker({
+                autoclose: true,
+            });
+
+            $('.meal_from').clockpicker({
+                autoclose: true,
+            });
+            $('.meal_to').clockpicker({
+                autoclose: true,
+            });
+        });
+    </script>
     <script !src="">
         $(document).ready(function () {
+            var minutes = ['00', '10', '20', '30', '40', '50'];
+            var hour = ['08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '01', '02', '03', '04', '05', '06', '07'];
+            for (let i = 0; i < hour.length; i++) {
+                for (let j = 0; j < minutes.length; j++) {
+                    $('.time_body').append(` <tr>
+                                                <th>${hour[i]}:${minutes[j]}</th>
+                                             </tr>`)
+                    $('.activity_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
+                                                    <td style="display: flex; justify-content: space-between; align-items: center">
+                                                        <div class="green">Test Data</div>
+                                                        <div><i class="fas fa-edit" aria-hidden="true"></i></div>
+                                                    </td>
+                                                </tr>`);
+                }
+            }
+        })
+    </script>
+
+    <script !src="">
+        $(document).ready(function () {
+            {{--date switcher script--}}
             function show_date(type = 0, dateString = "2010-09-11") {
                 let date = 0;
 
@@ -319,15 +333,15 @@
             show_date();
         });
     </script>
-
-    <script !src="">
-
-    </script>
-
 @endpush
 
 @push('header')
+    <link href="{{asset('assets/plugins/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">
     <style>
+        .clockpicker-popover {
+            z-index: 99999;
+        }
+
         .firs-table.table-striped tbody tr:nth-of-type(odd) {
             background-color: #a3c5a0;
         }
@@ -483,7 +497,7 @@
             color: #B89482;
         }
 
-        .add-btn{
+        .add-btn {
             background: none;
             border: none;
         }

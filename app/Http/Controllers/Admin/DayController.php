@@ -20,10 +20,9 @@ class DayController extends Controller
     public function index($id)
     {
         $user = User::find($id);
-        $title = self::TITLE;
-
-        $activity = Activity::all();
         $meals = Meal::all();
+        $activity = Activity::all();
+        $title = self::TITLE;
 
         return view(self::FOLDER . ".index", compact('user','title', 'activity', 'meals'));
     }
