@@ -4,6 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="white-box">
+                <input type="hidden" class="user_id" name="id" value="{{$user->id}}">
 
                 <div class="container m-t-10 m-b-20">
                     <div class="row">
@@ -12,9 +13,7 @@
                                 <div style="cursor: pointer" class="date-minus">
                                     <i class="fas fa-angle-left"></i>
                                 </div>
-                                <div class="m-r-10 m-l-10 date-show">
-                                    Today - July 1 2020
-                                </div>
+                                <div class="m-r-10 m-l-10 date-show"></div>
                                 <div style="cursor: pointer" class="date-plus">
                                     <i class="fas fa-angle-right"></i>
                                 </div>
@@ -68,7 +67,7 @@
                                 </th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="energy_body">
                             <tr>
                                 <td>Total&nbsp;cal</td>
                                 <td>Fat&nbsp;%</td>
@@ -77,15 +76,6 @@
                                 <td>Carb&nbsp;%</td>
                                 <td>Carb&nbsp;(c)</td>
                                 <td>Carb&nbsp;(g)</td>
-                            </tr>
-                            <tr>
-                                <td><span class="green">10</span></td>
-                                <td>200</td>
-                                <td><span class="green">4000</span></td>
-                                <td>400</td>
-                                <td>5000</td>
-                                <td>600</td>
-                                <td>700</td>
                             </tr>
                             </tbody>
                         </table>
@@ -98,7 +88,7 @@
                                 <th scope="col">&nbsp;</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="meal_body">
                             <tr>
                                 <th style="display: flex; justify-content: space-between; align-items: center;">
                                     Meal / Water
@@ -106,16 +96,6 @@
                                         <i class="fas fa-plus-circle"></i>
                                     </button>
                                 </th>
-                            </tr>
-                            <tr>
-                                <td style="display: flex; align-items: center; justify-content: space-between">
-                                    <div class="red">
-                                        Breakfast
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-edit"></i>
-                                    </div>
-                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -128,7 +108,7 @@
                                 <th colspan="6" class="text-center">Intake</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="intake_body">
                             <tr>
                                 <td>Fat&nbsp;(g)</td>
                                 <td>Fat&nbsp;Diges.</td>
@@ -136,15 +116,6 @@
                                 <td>Carb&nbsp;Dig.</td>
                                 <td>Protein&nbsp;(g)</td>
                                 <td>Protein&nbsp;Dig.</td>
-                            </tr>
-
-                            <tr>
-                                <td>15</td>
-                                <td>3.75</td>
-                                <td>120</td>
-                                <td>40</td>
-                                <td>10</td>
-                                <td>22</td>
                             </tr>
                             </tbody>
                         </table>
@@ -157,20 +128,10 @@
                                 <th colspan="2" class="text-center red">Status</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="status_body">
                             <tr class="bg-white">
                                 <td class="text-center">Fat</td>
                                 <td class="text-center">Carb</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    5.25
-                                    <span class="green">(loss)</span>
-                                </td>
-                                <td>
-                                    10
-                                    <span class="red">(access)</span>
-                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -190,6 +151,7 @@
                     <h4 class="modal-title">Activity</h4>
                 </div>
                 <div class="modal-body">
+                    <h3 class="text-danger m-t-20 m-b-20 error_modal_activity"></h3>
                     <div class="form-group">
                         <label for="activity_list">Choose Activity</label>
                         <select name="activity" id="activity_list" class="activity_list form-control">
@@ -211,7 +173,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success activity_save" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-success activity_save">Save</button>
                 </div>
             </div>
 
@@ -226,9 +188,10 @@
                     <h4 class="modal-title">Meals</h4>
                 </div>
                 <div class="modal-body">
+                    <h3 class="text-danger m-t-20 m-b-20 error_modal_meal"></h3>
                     <div class="form-group">
                         <label for="activity_list">Choose Meal</label>
-                        <select name="activity" id="activity_list" class="activity_list form-control">
+                        <select name="activity" id="meal_list" class="meal_list form-control">
                             @foreach($meals as $key => $val)
                                 <option value="{{$val->id}}">{{$val->name}}</option>
                             @endforeach
@@ -247,7 +210,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success meal_save" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-success meal_save">Save</button>
                 </div>
             </div>
 
@@ -276,6 +239,7 @@
             });
         });
     </script>
+
     <script !src="">
         $(document).ready(function () {
             var minutes = ['00', '10', '20', '30', '40', '50'];
@@ -285,19 +249,50 @@
                     $('.time_body').append(` <tr>
                                                 <th>${hour[i]}:${minutes[j]}</th>
                                              </tr>`)
-                    $('.activity_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
-                                                    <td style="display: flex; justify-content: space-between; align-items: center">
-                                                        <div class="green">Test Data</div>
-                                                        <div><i class="fas fa-edit" aria-hidden="true"></i></div>
+
+                    $('.activity_body').append(`<tr class="activity_name" data-time="${hour[i]}:${minutes[j]}">
+                                                    <td style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <div class="green"></div>
+                                                        <div class="edit"></div>
                                                     </td>
+                                                </tr>`);
+
+                    $('.energy_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
+                                                    <td class="energy_total"></td>
+                                                    <td class="energy_fat_p"></td>
+                                                    <td class="energy_fat_c"></td>
+                                                    <td class="energy_fat_g"></td>
+                                                    <td class="energy_carb_p"></td>
+                                                    <td class="energy_carb_c"></td>
+                                                    <td class="energy_carb_g"></td>
+                                                </tr>`);
+
+                    $('.meal_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
+                                                    <td style="display: flex; align-items: center; justify-content: space-between">
+                                                        <div class="red"></div>
+                                                        <div></div>
+                                                    </td>
+                                                </tr>`);
+
+                    $('.intake_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
+                                                    <td class="intake_fat_g"></td>
+                                                    <td class="intake_fat_d"></td>
+                                                    <td class="intake_carb_g"></td>
+                                                    <td class="intake_carb_d"></td>
+                                                    <td class="intake_protein_g"></td>
+                                                    <td class="intake_protein_d"></td>
+                                                </tr>`);
+
+                    $('.status_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
+                                                     <td class="status_fat"></td>
+                                                     <td class="status_carb"></td>
                                                 </tr>`);
                 }
             }
-        })
-    </script>
 
-    <script !src="">
-        $(document).ready(function () {
+            show_date();
+            fill_table();
+
             {{--date switcher script--}}
             function show_date(type = 0, dateString = "2010-09-11") {
                 let date = 0;
@@ -330,8 +325,113 @@
                 show_date(2, dateString)
             });
 
-            show_date();
-        });
+            $('.activity_save').click(function () {
+                $('.error_modal_activity').empty();
+
+                let data = {
+                    activity: $('#activity_list').find(":selected").val(),
+                    from: $('.activity_from').val(),
+                    to: $('.activity_to').val(),
+                    date: $('.date-show').html(),
+                    id: $('.user_id').val(),
+                };
+
+                for (let i in data) {
+                    if (data[i] === '' || data[i] === null) {
+                        $('.error_modal_activity').html('Please Fill All Inputs!')
+                        return;
+                    }
+                }
+
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}'
+                    },
+                    url: '{{ url('/day/add-activity') }}',
+                    data: data,
+                    success: function (res) {
+                        console.log(res)
+                    }
+                });
+            });
+
+            $('.meal_save').click(function () {
+                $('.error_modal_meal').empty();
+
+                let data = {
+                    meal: $('#meal_list').find(":selected").val(),
+                    from: $('.meal_from').val(),
+                    to: $('.meal_to').val(),
+                    date: $('.date-show').html(),
+                    id: $('.user_id').val(),
+                };
+
+                for (let i in data) {
+                    if (data[i] === '' || data[i] === null) {
+                        $('.error_modal_meal').html('Please Fill All Inputs!')
+                        return;
+                    }
+                }
+
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}'
+                    },
+                    url: '{{ url('/day/add-meals') }}',
+                    data: data,
+                    success: function (res) {
+                        console.log(res)
+                    }
+                });
+
+            });
+
+
+            function fill_table() {
+                let data = {
+                    date: $('.date-show').html(),
+                    id: $('.user_id').val(),
+                };
+
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}'
+                    },
+                    url: '{{ url('/day/get-all-data') }}',
+                    data: data,
+                    success: function (res) {
+                        var from = [];
+                        var to = [];
+
+                        for (var i = 0; i < res.activity.length; i++) {
+                            $(".activity_name").each(function (index) {
+                                if (res.activity[i].from == $(this).data('time')) from.push(index);
+                                if (res.activity[i].to == $(this).data('time')) to.push(index);
+                            });
+                        }
+
+                        for (var j = 0; j < from.length; j++) {
+                            $(".activity_name").each(function (index) {
+                                if (from[j] == index){
+                                    $(this).css({'height': 50*(to[j] - from[j]+1)+"px"});
+                                    $(this).find('.green').html(res.activity[j].get_activity.name)
+                                }
+                            });
+                        }
+
+
+                        console.log(from, to)
+
+
+                    }
+                });
+            }
+
+
+        })
     </script>
 @endpush
 
@@ -340,6 +440,11 @@
     <style>
         .clockpicker-popover {
             z-index: 99999;
+        }
+
+        table tr, table th {
+            height: 50px !important;
+            padding: 10px 8px !important;
         }
 
         .firs-table.table-striped tbody tr:nth-of-type(odd) {
