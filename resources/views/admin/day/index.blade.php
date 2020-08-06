@@ -416,8 +416,9 @@
                         for (var j = 0; j < from.length; j++) {
                             $(".activity_name").each(function (index) {
                                 if (from[j] == index){
-                                    $(this).css({'height': 50*(to[j] - from[j]+1)+"px"});
-                                    $(this).find('.green').html(res.activity[j].get_activity.name)
+                                    $(this).attr('style', `height: ${50*(to[j] - from[j]+1)}px !important`);
+                                    $(this).find('.green').html(res.activity[j].get_activity.name);
+                                    $(this).find('.edit').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.activity[j].id}"></i>`)
                                 }
                             });
                         }
