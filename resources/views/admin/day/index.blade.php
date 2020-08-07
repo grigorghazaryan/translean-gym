@@ -244,13 +244,14 @@
         $(document).ready(function () {
             var minutes = ['00', '10', '20', '30', '40', '50'];
             var hour = ['08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '01', '02', '03', '04', '05', '06', '07'];
+            var count = 0;
             for (let i = 0; i < hour.length; i++) {
                 for (let j = 0; j < minutes.length; j++) {
                     $('.time_body').append(` <tr>
                                                 <th>${hour[i]}:${minutes[j]}</th>
                                              </tr>`)
 
-                    $('.activity_body').append(`<tr class="activity_name" data-time="${hour[i]}:${minutes[j]}">
+                    $('.activity_body').append(`<tr class="activity_name act_${count} act_${i}_${j}" data-count="${count}" data-time="${hour[i]}:${minutes[j]}">
                                                     <td style="display: flex; justify-content: space-between; align-items: center;">
                                                         <div class="green"></div>
                                                         <div class="edit"></div>
@@ -287,6 +288,7 @@
                                                      <td class="status_fat"></td>
                                                      <td class="status_carb"></td>
                                                 </tr>`);
+                    count++;
                 }
             }
 
@@ -408,25 +410,27 @@
 
                         for (var i = 0; i < res.activity.length; i++) {
                             $(".activity_name").each(function (index) {
-                                if (res.activity[i].from == $(this).data('time')) from.push(index);
-                                if (res.activity[i].to == $(this).data('time')) to.push(index);
-                            });
-                        }
-
-                        for (var j = 0; j < from.length; j++) {
-                            $(".activity_name").each(function (index) {
-                                if (from[j] == index){
-                                    $(this).attr('style', `height: ${50*(to[j] - from[j]+1)}px !important`);
-                                    $(this).find('.green').html(res.activity[j].get_activity.name);
-                                    $(this).find('.edit').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.activity[j].id}"></i>`)
+                                if (res.activity[i].from == $(this).data('time')) {
+                                    from.push(index);
+                                }
+                                if (res.activity[i].to == $(this).data('time')) {
+                                    to.push(index);
                                 }
                             });
                         }
 
+                        for (var j = 0; j < from.length; j++) {
+                            $('.act_' + from[j]).attr('style', `height: ${50 * (to[j] - from[j] + 1)}px !important`);
+                            $('.act_' + from[j]).find('.green').html(res.activity[j].get_activity.name);
+                            $('.act_' + from[j]).find('.edit').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.activity[j].id}"></i>`)
 
-                        console.log(from, to)
+                            var result = to[j] - from[j];
+                            var c = from[j];
+                            for (var k = 1; k <= result; k++) {
+                                $('.act_' + (c + k)).remove()
+                            }
 
-
+                        }
                     }
                 });
             }
