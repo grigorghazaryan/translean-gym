@@ -3,10 +3,10 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <div class="white-box">
+            <div class="white-box" style="overflow-y: auto;">
                 <input type="hidden" class="user_id" name="id" value="{{$user->id}}">
 
-                <div class="container m-t-10 m-b-20">
+                <div class="container m-t-10 m-b-20" >
                     <div class="row">
                         <div class="col-md-12" style="display: flex; justify-content: center; align-items: center">
                             <div class="day-parent" style="display: flex; justify-content: center; align-items: center">
@@ -242,61 +242,10 @@
 
     <script !src="">
         $(document).ready(function () {
-            var minutes = ['00', '10', '20', '30', '40', '50'];
-            var hour = ['08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '01', '02', '03', '04', '05', '06', '07'];
-            var count = 0;
-            for (let i = 0; i < hour.length; i++) {
-                for (let j = 0; j < minutes.length; j++) {
-                    $('.time_body').append(` <tr>
-                                                <th>${hour[i]}:${minutes[j]}</th>
-                                             </tr>`)
-
-                    $('.activity_body').append(`<tr class="activity_name act_${count} act_${i}_${j}" data-count="${count}" data-time="${hour[i]}:${minutes[j]}">
-                                                    <td style="display: flex; justify-content: space-between; align-items: center;">
-                                                        <div class="green"></div>
-                                                        <div class="edit"></div>
-                                                    </td>
-                                                </tr>`);
-
-                    $('.energy_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
-                                                    <td class="energy_total"></td>
-                                                    <td class="energy_fat_p"></td>
-                                                    <td class="energy_fat_c"></td>
-                                                    <td class="energy_fat_g"></td>
-                                                    <td class="energy_carb_p"></td>
-                                                    <td class="energy_carb_c"></td>
-                                                    <td class="energy_carb_g"></td>
-                                                </tr>`);
-
-                    $('.meal_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
-                                                    <td style="display: flex; align-items: center; justify-content: space-between">
-                                                        <div class="red"></div>
-                                                        <div></div>
-                                                    </td>
-                                                </tr>`);
-
-                    $('.intake_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
-                                                    <td class="intake_fat_g"></td>
-                                                    <td class="intake_fat_d"></td>
-                                                    <td class="intake_carb_g"></td>
-                                                    <td class="intake_carb_d"></td>
-                                                    <td class="intake_protein_g"></td>
-                                                    <td class="intake_protein_d"></td>
-                                                </tr>`);
-
-                    $('.status_body').append(`<tr class="time_${hour[i]}_${minutes[j]}" data-time="time_${hour[i]}_${minutes[j]}">
-                                                     <td class="status_fat"></td>
-                                                     <td class="status_carb"></td>
-                                                </tr>`);
-                    count++;
-                }
-            }
-
-            show_date();
-            fill_table();
 
             {{--date switcher script--}}
-            function show_date(type = 0, dateString = "2010-09-11") {
+            show_date();
+            function show_date(type = 0, dateString = null) {
                 let date = 0;
 
                 if (type == 1) {
@@ -305,7 +254,10 @@
                 } else if (type == 2) {
                     date = new Date(dateString);
                     date.setDate(date.getDate() - 1);
-                } else {
+                } else if(dateString != null) {
+                    date = new Date(dateString);
+                    date.setDate(date.getDate());
+                }else{
                     date = new Date();
                     date.setDate(date.getDate());
                 }
@@ -315,6 +267,7 @@
                 let dateShow = date.getFullYear() + "-" + (month) + "-" + (day);
 
                 $('.date-show').html(dateShow);
+                fill_table();
             }
 
             $('.date-plus').click(function () {
@@ -353,7 +306,9 @@
                     url: '{{ url('/day/add-activity') }}',
                     data: data,
                     success: function (res) {
-                        console.log(res)
+                        $('#activity').modal('toggle');
+                        let date = $('.date-show').html()
+                        show_date(0, date);
                     }
                 });
             });
@@ -384,7 +339,9 @@
                     url: '{{ url('/day/add-meals') }}',
                     data: data,
                     success: function (res) {
-                        console.log(res)
+                        $('#meal').modal('toggle');
+                        let date = $('.date-show').html()
+                        show_date(0, date);
                     }
                 });
 
@@ -392,6 +349,75 @@
 
 
             function fill_table() {
+                var minutes = ['00', '10', '20', '30', '40', '50'];
+                var hour = ['08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '01', '02', '03', '04', '05', '06', '07'];
+                var count = 0;
+                $('.tiem_tracer').each(function () {
+                    $(this).remove()
+                });
+                $('.activity_name').each(function () {
+                    $(this).remove()
+                });
+                $('.energy_name').each(function () {
+                    $(this).remove()
+                });
+                $('.meal_name').each(function () {
+                    $(this).remove()
+                });
+                $('.intake_name').each(function () {
+                    $(this).remove()
+                });
+                $('.status_name').each(function () {
+                    $(this).remove()
+                });
+
+                for (let i = 0; i < hour.length; i++) {
+                    for (let j = 0; j < minutes.length; j++) {
+                        $('.time_body').append(` <tr class="tiem_tracer">
+                                                <th>${hour[i]}:${minutes[j]}</th>
+                                             </tr>`)
+
+                        $('.activity_body').append(`<tr class="activity_name act_${count} act_${i}_${j}" data-count="${count}" data-time="${hour[i]}:${minutes[j]}">
+                                                    <td style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <div class="green"></div>
+                                                        <div class="edit"></div>
+                                                    </td>
+                                                </tr>`);
+
+                        $('.energy_body').append(`<tr class="energy_name eng_${count} eng_${i}_${j}" data-time="${hour[i]}:${minutes[j]}">
+                                                    <td class="energy_total"></td>
+                                                    <td class="energy_fat_p"></td>
+                                                    <td class="energy_fat_c"></td>
+                                                    <td class="energy_fat_g"></td>
+                                                    <td class="energy_carb_p"></td>
+                                                    <td class="energy_carb_c"></td>
+                                                    <td class="energy_carb_g"></td>
+                                                </tr>`);
+
+                        $('.meal_body').append(`<tr class="meal_name meal_${count} meal_${i}_${j}" data-time="${hour[i]}:${minutes[j]}">
+                                                    <td style="display: flex; align-items: center; justify-content: space-between">
+                                                        <div class="red"></div>
+                                                        <div class="edit_m"></div>
+                                                    </td>
+                                                </tr>`);
+
+                        $('.intake_body').append(`<tr class="intake_name int_${count} int_${i}_${j}" data-time="${hour[i]}:${minutes[j]}">
+                                                    <td class="intake_fat_g"></td>
+                                                    <td class="intake_fat_d"></td>
+                                                    <td class="intake_carb_g"></td>
+                                                    <td class="intake_carb_d"></td>
+                                                    <td class="intake_protein_g"></td>
+                                                    <td class="intake_protein_d"></td>
+                                                </tr>`);
+
+                        $('.status_body').append(`<tr class="status_name stat_${count} stat_${i}_${j}" data-time="${hour[i]}:${minutes[j]}">
+                                                     <td class="status_fat"></td>
+                                                     <td class="status_carb"></td>
+                                                </tr>`);
+                        count++;
+                    }
+                }
+
                 let data = {
                     date: $('.date-show').html(),
                     id: $('.user_id').val(),
@@ -407,7 +433,6 @@
                     success: function (res) {
                         var from = [];
                         var to = [];
-
                         for (var i = 0; i < res.activity.length; i++) {
                             $(".activity_name").each(function (index) {
                                 if (res.activity[i].from == $(this).data('time')) {
@@ -417,25 +442,71 @@
                                     to.push(index);
                                 }
                             });
-                        }
 
+                        }
                         for (var j = 0; j < from.length; j++) {
                             $('.act_' + from[j]).attr('style', `height: ${50 * (to[j] - from[j] + 1)}px !important`);
                             $('.act_' + from[j]).find('.green').html(res.activity[j].get_activity.name);
                             $('.act_' + from[j]).find('.edit').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.activity[j].id}"></i>`)
 
+                            $('.eng_' + from[j]).attr('style', `height: ${50 * (to[j] - from[j] + 1)}px !important`)
+                            $('.eng_' + from[j]).html(`<td class="energy_total">${res.activity[j].get_activity.met}</td>
+                                                       <td class="energy_fat_p">${res.activity[j].get_activity.fat_ratio}</td>
+                                                       <td class="energy_fat_c">${res.activity[j].get_activity.fat_ratio}</td>
+                                                       <td class="energy_fat_g">${res.activity[j].get_activity.fat_ratio}</td>
+                                                       <td class="energy_carb_p">${res.activity[j].get_activity.carb_ratio}</td>
+                                                       <td class="energy_carb_c">${res.activity[j].get_activity.carb_ratio}</td>
+                                                       <td class="energy_carb_g">${res.activity[j].get_activity.carb_ratio}</td>`);
+
                             var result = to[j] - from[j];
                             var c = from[j];
                             for (var k = 1; k <= result; k++) {
-                                $('.act_' + (c + k)).remove()
+                                $('.act_' + (c + k)).remove();
+                                $('.eng_' + (c + k)).remove();
                             }
 
                         }
+
+                        // --------------------------------------------------------
+                        var m_from = [];
+                        var m_to = [];
+                        for (var l = 0; l < res.meal.length; l++) {
+                            $(".meal_name").each(function (index) {
+                                if (res.meal[l].from == $(this).data('time')) {
+                                    m_from.push(index);
+                                }
+                                if (res.meal[l].to == $(this).data('time')) {
+                                    m_to.push(index);
+                                }
+                            });
+                        }
+                        for (var h = 0; h < m_from.length; h++) {
+                            $('.meal_' + m_from[h]).attr('style', `height: ${50 * (m_to[h] - m_from[h] + 1)}px !important`);
+                            $('.meal_' + m_from[h]).find('.red').html(res.meal[h].get_meals.name);
+                            $('.meal_' + m_from[h]).find('.edit_m').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.meal[h].id}"></i>`)
+
+                            $('.int_' + m_from[h]).attr('style', `height: ${50 * (m_to[h] - m_from[h] + 1)}px !important`)
+                            $('.int_' + m_from[h]).html(` <td class="intake_fat_g">${res.meal[h].get_meals.fat}</td>
+                                                        <td class="intake_fat_d">${res.meal[h].get_meals.fat}</td>
+                                                        <td class="intake_carb_g">${res.meal[h].get_meals.carbs}</td>
+                                                        <td class="intake_carb_d">${res.meal[h].get_meals.carbs}</td>
+                                                        <td class="intake_protein_g">${res.meal[h].get_meals.proteins}</td>
+                                                        <td class="intake_protein_d">${res.meal[h].get_meals.proteins}</td>`);
+
+                            var m_result = m_to[h] - m_from[h];
+                            var m = m_from[h];
+                            for (var n = 1; n <= m_result; n++) {
+                                $('.meal_' + (m + n)).remove();
+                                $('.int_' + (m + n)).remove();
+                            }
+
+                        }
+
+                        // --------------------------------------------------------
+
                     }
                 });
             }
-
-
         })
     </script>
 @endpush
