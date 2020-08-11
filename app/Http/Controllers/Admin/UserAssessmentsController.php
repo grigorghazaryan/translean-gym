@@ -7,6 +7,7 @@ use App\Model\User;
 use Illuminate\Http\Request;
 use App\Model\UserAssessments;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Project;
 
 class UserAssessmentsController extends Controller
 {
@@ -26,7 +27,6 @@ class UserAssessmentsController extends Controller
 
         return view(self::FOLDER . ".index", compact('user', 'assessments', 'title'));
     }
-
 
     /**
      * @param Request $request
@@ -82,32 +82,29 @@ class UserAssessmentsController extends Controller
         $projection = UserAssessments::where(array('user_id' => $request->id, 'type' => 2))->first();
 
         if (!empty($first)) {
-            $first['type'] = 'First Assessment';
-            $first['id'] = '1';
             $data[] = $first;
         }
 
         if (!empty($current)) {
-            $current['type'] = 'Current Assessment';
-            $current['id'] = '2';
             $data[] = $current;
         }
 
         if (!empty($projection)) {
-            $projection['type'] = 'Projection';
-            $projection['id'] = '3';
             $data[] = $projection;
         }
 
         return response()->json($data);
     }
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAjax(Request $request)
     {
         $id = $request->id;
         $assessments = UserAssessments::where('user_id', $id)
-            ->where(function ($query){
+            ->where(function ($query) {
                 $query->where('type', 0)
                     ->orWhere('type', 1);
             })
@@ -116,4 +113,67 @@ class UserAssessmentsController extends Controller
         return response()->json($assessments);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteAssessment(Request $request)
+    {
+        UserAssessments::destroy($request->id);
+        return response()->json(['success' => true]);
+    }
+
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $data = UserAssessments::where('id', $id)->first();
+        if ($data->type == 2) {
+            $title = 'Projection';
+        } else {
+            $title = self::TITLE;
+        }
+        return view(self::FOLDER . ".edit", compact('data', 'title'));
+    }
+
+    /**
+     * @param Request $request
+     * @param         $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update(Request $request, $id)
+    {
+        $data = UserAssessments::where('id', $id)->first();
+        $data->activity_level = $request->activity_level;
+        $data->date = $request->date;
+        $data->weight = $request->weight;
+        $data->total_fat = $request->total_fat;
+        $data->right_arm = $request->right_arm;
+        $data->left_arm = $request->left_arm;
+        $data->right_leg = $request->right_leg;
+        $data->left_leg = $request->left_leg;
+        $data->trunk = $request->trunk;
+        $data->muscle_mass = $request->muscle_mass;
+        $data->right_arm_mass = $request->right_arm_mass;
+        $data->left_arm_mass = $request->left_arm_mass;
+        $data->right_leg_mass = $request->right_leg_mass;
+        $data->left_leg_mass = $request->left_leg_mass;
+        $data->trunk_mass = $request->trunk_mass;
+        $data->bone_mass = $request->bone_mass;
+        $data->metabolic_age = $request->metabolic_age;
+        $data->body_water = $request->body_water;
+        $data->visceral_fat = $request->visceral_fat;
+        $data->lean_mass = $request->lean_mass;
+
+        if($data->type == 2)
+        {
+            $data->glycogen_store = $request->glycogen_store;
+        }
+        $data->save();
+
+        return redirect('/assessments/'.$data->user_id);
+    }
 }

@@ -28,7 +28,6 @@
                            width="100%">
                         <thead>
                         <tr>
-                            <th>Id</th>
                             <th>Activity Level</th>
                             <th>Date</th>
                             <th>Weight (kg) <i class="fas fa-chart-bar weight m-l-10" data-toggle="modal"
@@ -44,13 +43,13 @@
                             <th>Lean Mass (kg) <i class="fas fa-chart-bar lean m-l-10" data-toggle="modal"
                                                   data-target="#graffModal"></i></th>
                             <th>Assessments Type</th>
+                            <th>Options</th>
                         </tr>
                         </thead>
 
                         <tbody>
                         @foreach($assessments as $key=>$val)
                             <tr>
-                                <td>{{$key + 1}}</td>
                                 <td>{{$val->activity_level}}</td>
                                 <td>{{$val->date}}</td>
                                 <td>{{$val->weight}}</td>
@@ -70,6 +69,7 @@
 
                                     @endif
                                 </td>
+                                <td></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -248,10 +248,16 @@
     <script src="{{asset('assets/plugins/swal/sweetalert.min.js')}}"></script>
     <script src="{{asset('assets/plugins/chart.js/Chart.min.js')}}"></script>
     <script !src="">
+        var res = JSON.parse('<?php echo json_encode($assessments); ?>');
+
         $('#datatable').DataTable({
-            bSort : false,
+            dom: "Bfrtip",
+            bSort: false,
+            data: res,
+            createdRow: function (row, data, dataIndex) {
+                $(row).attr('data-type', data.type);
+            },
             columns: [
-                {data: 'id'},
                 {data: 'activity_level'},
                 {data: 'date'},
                 {data: 'weight'},
@@ -260,10 +266,54 @@
                 {data: 'visceral_fat'},
                 {data: 'muscle_mass'},
                 {data: 'lean_mass'},
-                {data: 'type'},
+                {
+                    data: 'type',
+                    render: function (data, type, row , meta ) {
+                        var t = "";
+                        if (data == 0 && meta.row == 0)
+                            t = 'First Assessment'
+                        else if (data == 2)
+                            t = 'Projection'
+                        else if (data == 1) {
+                            t = 'Current Assessment'
+                        } else {
+                            t = ""
+                        }
+                        return `${t}`
+                    }
+                },
+                {
+                    data: 'id',
+                    render: function (data) {
+                        return `<a href="/assessments/edit/${data}" class="btn btn-info btn-circle edit">
+                                             <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <a href="#" class="btn btn-danger btn-circle delete" data-id='${data}'>
+                                            <i class="fas fa-trash"></i>
+                                        </a>`
+                    },
+                }
             ],
         });
+
+        $(document).on('click', '.delete', function () {
+            let id = $(this).data('id');
+            $.ajax({
+                type: 'POST',
+                url: '/deleteAssessment',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {id},
+                success: function (data) {
+                    location.reload();
+                },
+            });
+
+        })
     </script>
+
     <script>
         $(document).ready(function () {
             $('.assessment').click(function () {
@@ -300,7 +350,7 @@
                 $('input[name=glycogen_store]').val(weight * 5.6)
             });
 
-            $('.ass_type').each(function (index, item) {
+            $('tr').each(function (index, item) {
                 if ($(item).data('type') === 2) {
                     $('.projection').attr('disabled', true);
                     return false;
