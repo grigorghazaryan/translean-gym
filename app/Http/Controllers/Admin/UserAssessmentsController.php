@@ -107,8 +107,10 @@ class UserAssessmentsController extends Controller
     {
         $id = $request->id;
         $assessments = UserAssessments::where('user_id', $id)
-            ->where('type', 0)
-            ->orwhere('type', 1)
+            ->where(function ($query){
+                $query->where('type', 0)
+                    ->orWhere('type', 1);
+            })
             ->orderBy('date', 'ASC')
             ->get();
         return response()->json($assessments);

@@ -249,6 +249,7 @@
     <script src="{{asset('assets/plugins/chart.js/Chart.min.js')}}"></script>
     <script !src="">
         $('#datatable').DataTable({
+            bSort : false,
             columns: [
                 {data: 'id'},
                 {data: 'activity_level'},
