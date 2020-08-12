@@ -47,6 +47,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::post('/deleteAssessment', 'UserAssessmentsController@deleteAssessment');
     Route::get('/assessments/edit/{id}', 'UserAssessmentsController@edit');
     Route::put('/assessments/update/{id}', 'UserAssessmentsController@update');
+    Route::get('/assessments/show/{id}', 'UserAssessmentsController@show');
 
 
 

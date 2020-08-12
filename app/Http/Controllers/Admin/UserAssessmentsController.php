@@ -104,10 +104,11 @@ class UserAssessmentsController extends Controller
     {
         $id = $request->id;
         $assessments = UserAssessments::where('user_id', $id)
-            ->where(function ($query) {
-                $query->where('type', 0)
-                    ->orWhere('type', 1);
-            })
+//            ->where(function ($query) {
+//                $query->where('type', 0)
+//                    ->orWhere('type', 1);
+//            })
+            ->orderBy('type', 'ASC')
             ->orderBy('date', 'ASC')
             ->get();
         return response()->json($assessments);
@@ -175,5 +176,19 @@ class UserAssessmentsController extends Controller
         $data->save();
 
         return redirect('/assessments/'.$data->user_id);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show($id){
+        $data = UserAssessments::where('id', $id)->first();
+        if ($data->type == 2) {
+            $title = 'Projection';
+        } else {
+            $title = self::TITLE;
+        }
+        return view(self::FOLDER . ".show", compact('data', 'title'));
     }
 }

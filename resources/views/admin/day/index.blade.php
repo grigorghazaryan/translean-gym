@@ -17,6 +17,7 @@
                                 <div style="cursor: pointer" class="date-plus">
                                     <i class="fas fa-angle-right"></i>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -237,6 +238,7 @@
             $('.meal_to').clockpicker({
                 autoclose: true,
             });
+
         });
     </script>
 
@@ -516,6 +518,10 @@
     <style>
         .clockpicker-popover {
             z-index: 99999;
+        }
+
+        .table-condensed tr, .table-condensed td {
+            height: auto !important;
         }
 
         table tr, table th {

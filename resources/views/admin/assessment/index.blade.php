@@ -285,7 +285,11 @@
                 {
                     data: 'id',
                     render: function (data) {
-                        return `<a href="/assessments/edit/${data}" class="btn btn-info btn-circle edit">
+                        return `        <a href="/assessments/show/${data}" class="btn btn-success btn-circle ">
+                                             <i class="fas fa-eye"></i>
+                                        </a>
+
+                                        <a href="/assessments/edit/${data}" class="btn btn-info btn-circle edit">
                                              <i class="fas fa-edit"></i>
                                         </a>
 
@@ -481,26 +485,47 @@
                 url: '/getAssessment',
                 data: {id: id},
                 success: function (res) {
-                    let labels = [];
-                    let data = []
+                    let labels = [""];
+                    let data = [0];
+                    let projection_data = [];
+                    console.log(res)
 
                     for (let i = 0; i < res.length; i++) {
                         labels.push(res[i].date);
-                        if (type === 'weight') {
+                        if (type === 'weight' && res[i].type != 2) {
                             data.push(res[i].weight);
-                        } else if (type === 'total_fat') {
+                        } else if (type === 'total_fat' && res[i].type != 2) {
                             data.push(res[i].total_fat);
-                        } else if (type === 'age') {
+                        } else if (type === 'age' && res[i].type != 2) {
                             data.push(res[i].metabolic_age);
-                        } else if (type === 'visceral_fat') {
+                        } else if (type === 'visceral_fat' && res[i].type != 2) {
                             data.push(res[i].visceral_fat);
-                        } else if (type === 'muscle') {
+                        } else if (type === 'muscle' && res[i].type != 2) {
                             data.push(res[i].muscle_mass);
-                        } else if (type === 'lean') {
+                        } else if (type === 'lean' && res[i].type != 2) {
                             data.push(res[i].lean_mass);
                         }
+
+                        for(var j = 0 ; j < 6; j++)
+                        {
+                            if (type === 'weight' && res[i].type == 2) {
+                                projection_data.push(res[i].weight);
+                            } else if (type === 'total_fat' && res[i].type == 2) {
+                                projection_data.push(res[i].total_fat);
+                            } else if (type === 'age' && res[i].type == 2) {
+                                projection_data.push(res[i].metabolic_age);
+                            } else if (type === 'visceral_fat' && res[i].type == 2) {
+                                projection_data.push(res[i].visceral_fat);
+                            } else if (type === 'muscle' && res[i].type == 2) {
+                                projection_data.push(res[i].muscle_mass);
+                            } else if (type === 'lean' && res[i].type == 2) {
+                                projection_data.push(res[i].lean_mass);
+                            }
+                        }
+
                     }
 
+                    console.log(labels, data, projection_data)
                     new Chart(document.getElementById("myChart"),
                         {
                             "type": "line",
@@ -512,7 +537,28 @@
                                     "borderColor": '#3b8e34',
                                     "backgroundColor": '#e5e5e57d',
                                     "lineTension": 0.01,
-                                }]
+                                },
+                                    {
+                                        data: projection_data,
+                                        "fill": false,
+                                        "borderColor": '#8e5804',
+                                        "lineTension": 0.01,
+                                    }
+                                ],
+                                annotation: {
+                                    annotations: [{
+                                        type: 'line',
+                                        mode: 'horizontal',
+                                        scaleID: 'y-axis-0',
+                                        value: 30,
+                                        borderColor: 'rgb(75, 192, 192)',
+                                        borderWidth: 4,
+                                        label: {
+                                            enabled: true,
+                                            content: 'Test label'
+                                        }
+                                    }]
+                                }
                             },
                             options: {
                                 legend: {
