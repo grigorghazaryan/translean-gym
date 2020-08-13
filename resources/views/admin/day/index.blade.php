@@ -18,6 +18,12 @@
                                     <i class="fas fa-angle-right"></i>
                                 </div>
 
+                                <div class="date" style="margin-left: 30px;">
+                                    <input type="hidden" class="form-control">
+                                    <span class="input-group-addon" style="background: none; border: none; cursor: pointer;">
+                                        <i class="glyphicon glyphicon-th"></i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -223,8 +229,9 @@
 @push('footer')
     {{--Clock pickers for activity choose and meals choose--}}
     <script src="{{asset('assets/plugins/clockpicker/dist/jquery-clockpicker.js')}}"></script>
+    <script src="{{asset('assets/plugins/datepicker-new/js/bootstrap-datepicker.js')}}"></script>
     <script>
-        $(document).ready(function () {
+       $(document).ready(function () {
             $('.activity_from').clockpicker({
                 autoclose: true,
             });
@@ -238,7 +245,6 @@
             $('.meal_to').clockpicker({
                 autoclose: true,
             });
-
         });
     </script>
 
@@ -271,6 +277,15 @@
                 $('.date-show').html(dateShow);
                 fill_table();
             }
+
+            $('.date').datepicker({ autoclose: true, format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
+                let str = new Date(e.date)
+                    mnth = ("0" + (str.getMonth() + 1)).slice(-2),
+                    day = ("0" + str.getDate()).slice(-2);
+                let date = [str.getFullYear(), mnth, day].join("-");
+                $('.date-show').html(date);
+                show_date(0, date);
+            });
 
             $('.date-plus').click(function () {
                 let dateString = $('.date-show').html();
@@ -348,7 +363,6 @@
                 });
 
             });
-
 
             function fill_table() {
                 var minutes = ['00', '10', '20', '30', '40', '50'];
@@ -515,6 +529,7 @@
 
 @push('header')
     <link href="{{asset('assets/plugins/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/plugins/datepicker-new/css/bootstrap-datepicker.css')}}" rel="stylesheet">
     <style>
         .clockpicker-popover {
             z-index: 99999;
