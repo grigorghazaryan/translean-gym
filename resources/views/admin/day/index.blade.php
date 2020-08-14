@@ -6,7 +6,7 @@
             <div class="white-box" style="overflow-y: auto;">
                 <input type="hidden" class="user_id" name="id" value="{{$user->id}}">
 
-                <div class="container m-t-10 m-b-20" >
+                <div class="container m-t-10 m-b-20">
                     <div class="row">
                         <div class="col-md-12" style="display: flex; justify-content: center; align-items: center">
                             <div class="day-parent" style="display: flex; justify-content: center; align-items: center">
@@ -20,7 +20,8 @@
 
                                 <div class="date" style="margin-left: 30px;">
                                     <input type="hidden" class="form-control">
-                                    <span class="input-group-addon" style="background: none; border: none; cursor: pointer;">
+                                    <span class="input-group-addon"
+                                          style="background: none; border: none; cursor: pointer;">
                                         <i class="glyphicon glyphicon-th"></i>
                                     </span>
                                 </div>
@@ -187,40 +188,142 @@
         </div>
     </div>
 
-    <div id="meal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+    <div id="meal" class="modal fade bs-example-modal-lg in" role="dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Meals</h4>
                 </div>
-                <div class="modal-body">
-                    <h3 class="text-danger m-t-20 m-b-20 error_modal_meal"></h3>
-                    <div class="form-group">
-                        <label for="activity_list">Choose Meal</label>
-                        <select name="activity" id="meal_list" class="meal_list form-control">
-                            @foreach($meals as $key => $val)
-                                <option value="{{$val->id}}">{{$val->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="meal_from">From</label>
-                            <input type="text" class="clockpicker meal_from form-control">
+
+                <div class="modal-body" style="position: relative; overflow-y: auto;">
+                    <!-- Nav tabs -->
+                    <ul class="nav customtab nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#personal" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">
+                                <span class="visible-xs"><i class="ti-home"></i></span>
+                                <span class="hidden-xs">Personal Meal</span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#add" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">
+                                <span class="visible-xs"><i class="ti-user"></i></span>
+                                <span class="hidden-xs">Create Meal</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="personal">
+                            {{--                            <h3 class="text-danger m-t-20 m-b-20 error_modal_meal"></h3>--}}
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="activity_list">Choose Meal</label>
+                                    <select name="activity" id="meal_list" class="meal_list form-control">
+                                        @foreach($meals as $key => $val)
+                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="meal_from">From</label>
+                                    <input type="text" class="clockpicker meal_from form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="meal_to">To</label>
+                                    <input type="text" class="clockpicker meal_to form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="add">
+
+                            <div class="success text-success"></div>
+                            <div class=" text-danger">
+                                <ul class="errors"></ul>
+                            </div>
+
+                            <form class="create_meal_form">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name"
+                                           placeholder="Name" name="name" value="">
+                                </div>
+
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-3">
+                                        <label for="total_mass">Total Mass</label>
+                                        <input type="number" class="form-control" id="total_mass"
+                                               placeholder="Total Mass"
+                                               name="total_mass" readonly required>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="total_carbs">Total Carbs</label>
+                                        <input type="number" class="form-control" id="total_carbs"
+                                               placeholder="Total Carbs"
+                                               name="total_carbs" readonly required>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="total_fat">Total Fat</label>
+                                        <input type="number" class="form-control" id="total_fat" placeholder="Total Fat"
+                                               name="total_fat" readonly required>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="total_proteins">Total Proteins</label>
+                                        <input type="number" class="form-control" id="total_proteins"
+                                               placeholder="Total Proteins" name="total_proteins" readonly required>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="total_calories">Total Calories</label>
+                                        <input type="number" class="form-control" id="total_calories"
+                                               placeholder="Total Calories" name="total_calories" readonly required>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="total_ph">Total PH</label>
+                                        <input type="number" class="form-control" id="total_ph" placeholder="Total PH"
+                                               name="total_ph" readonly required>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="total_glycemic_load">Total Glycemic Load</label>
+                                        <input type="number" class="form-control" id="total_glycemic_load"
+                                               placeholder="Total Glycemic Load" name="total_glycemic_load" readonly
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="foods">
+                                            <button type="button" class="btn btn-success col-md-2 m-b-20 plus"
+                                                    style=" height: 200px;width: 200px;">
+                                                <i class="fa fa-plus" style="font-size: 100px;"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <button type="button"
+                                                class="btn create-meal btn-success waves-effect waves-light m-r-10">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
 
-                        <div class="form-group">
-                            <label for="meal_to">To</label>
-                            <input type="text" class="clockpicker meal_to form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success meal_save">Save</button>
-                </div>
-            </div>
-
+                    </div>{{--end tab content--}}
+                </div>{{--end modal body--}}
+            </div>{{--end modal content--}}
         </div>
     </div>
 
@@ -231,7 +334,7 @@
     <script src="{{asset('assets/plugins/clockpicker/dist/jquery-clockpicker.js')}}"></script>
     <script src="{{asset('assets/plugins/datepicker-new/js/bootstrap-datepicker.js')}}"></script>
     <script>
-       $(document).ready(function () {
+        $(document).ready(function () {
             $('.activity_from').clockpicker({
                 autoclose: true,
             });
@@ -253,6 +356,7 @@
 
             {{--date switcher script--}}
             show_date();
+
             function show_date(type = 0, dateString = null) {
                 let date = 0;
 
@@ -262,10 +366,10 @@
                 } else if (type == 2) {
                     date = new Date(dateString);
                     date.setDate(date.getDate() - 1);
-                } else if(dateString != null) {
+                } else if (dateString != null) {
                     date = new Date(dateString);
                     date.setDate(date.getDate());
-                }else{
+                } else {
                     date = new Date();
                     date.setDate(date.getDate());
                 }
@@ -278,9 +382,9 @@
                 fill_table();
             }
 
-            $('.date').datepicker({ autoclose: true, format: 'yyyy-mm-dd'}).on('changeDate', function(e) {
+            $('.date').datepicker({autoclose: true, format: 'yyyy-mm-dd'}).on('changeDate', function (e) {
                 let str = new Date(e.date)
-                    mnth = ("0" + (str.getMonth() + 1)).slice(-2),
+                mnth = ("0" + (str.getMonth() + 1)).slice(-2),
                     day = ("0" + str.getDate()).slice(-2);
                 let date = [str.getFullYear(), mnth, day].join("-");
                 $('.date-show').html(date);
@@ -525,6 +629,170 @@
             }
         })
     </script>
+
+    <script !src="">
+        $(document).ready(function () {
+            let foods = '<?php echo $foods ?>';
+            foods = JSON.parse(foods);
+            let row = 0;
+            add();
+
+            function add() {
+                let food = '';
+                for (var i = 0; i < foods.length; i++) {
+                    food += `<option value="${foods[i].id}"
+                             data-carbs="${foods[i].carbs}"
+                             data-fat="${foods[i].fat}"
+                             data-proteins="${foods[i].proteins}"
+                             data-calories="${foods[i].calories}"
+                             data-fiber="${foods[i].fiber}"
+                             data-glycemic_index="${foods[i].glycemic_index}"
+                             data-glycemic_load="${foods[i].glycemic_load}"
+                             data-ph="${foods[i].ph}"
+                             data-quantity_measure="${foods[i].quantity_measure}"
+                            >${foods[i].name}</option>`
+                }
+
+                let btn = `<button type="button" class="btn btn-danger col-md-12 m-b-20 minus" data-row="${row}"><i class="fa fa-minus"></i></button>`
+                let element = `
+                                <div class="form-group col-md-3 row_${row} food_items">
+                                    <label for="name">Food</label>
+                                    <select name="food[]" id="food_sel" class="form-control m-b-20">
+                                        ${food}
+                                    </select>
+                                    <input type="number" name="mass[]" id="mass" class="form-control m-b-20" placeholder="Mass" required>
+                                    ${btn}
+                                </div>`
+
+                $('.foods').prepend(element);
+                row++;
+            }
+
+            $(document).on('click', '.plus', function () {
+                add();
+                row++;
+            });
+
+            $(document).on('click', '.minus', function () {
+                let food_row = $(this).data('row');
+                $('.row_' + food_row).remove();
+                row--;
+                calculate();
+            });
+
+            $(document).find(".food_items").each(function () {
+                $(document).on('change', '#food_sel', function () {
+                    calculate();
+                });
+                $(document).on('input', '#mass', function () {
+                    calculate();
+                });
+            });
+
+            function calculate() {
+                let total_mass = 0;
+                let total_carbs = 0;
+                let total_fat = 0;
+                let total_proteins = 0;
+                let total_calories = 0;
+                let total_ph = 0;
+                let total_glycemic_load = 0;
+                let food_mass = 0;
+
+                // other variable
+                var ph_sum = 0;
+                var ph_d = 0;
+                var gl_sum = 0;
+                var gl_d = 0;
+
+
+                $(document).find(".food_items").each(function () {
+
+                    let mass = parseFloat($(this).find("#mass").val());
+                    food_mass = parseFloat($(this).find("#food_sel").find(":selected").data('quantity_measure'));
+
+                    total_mass += parseFloat($(this).find("#mass").val());
+                    total_carbs += parseFloat($(this).find("#food_sel").find(":selected").data('carbs')) / food_mass * mass;
+                    total_fat += parseFloat($(this).find("#food_sel").find(":selected").data('fat')) / food_mass * mass;
+                    total_proteins += parseFloat($(this).find("#food_sel").find(":selected").data('proteins')) / food_mass * mass;
+                    total_calories += parseFloat($(this).find("#food_sel").find(":selected").data('calories')) / food_mass * mass;
+
+                    let nums = $('.food_items').length;
+
+                    // ph calculate Average (Sum of (Food Item Mass * PH) / total Mass)
+                    let ph = Number($(this).find("#food_sel").find(":selected").data('ph'));
+                    ph_sum += parseFloat(mass * ph);
+                    ph_d += ph_sum / total_mass;
+                    total_ph = parseFloat(ph_d / nums).toFixed(2);
+
+                    // total_glycemic_load calculate Average (Sum of (Food Item Mass * Glycemic Load) / total Mass)
+                    let gl = parseFloat($(this).find("#food_sel").find(":selected").data('glycemic_load'));
+                    gl_sum += parseFloat(mass * gl);
+                    gl_d += gl_sum / total_mass;
+                    total_glycemic_load = parseFloat(gl_d / nums).toFixed(2);
+
+                    $('#total_mass').val(total_mass);
+                    $('#total_carbs').val(total_carbs);
+                    $('#total_fat').val(total_fat);
+                    $('#total_proteins').val(total_proteins);
+                    $('#total_calories').val(total_calories);
+                    $('#total_ph').val(total_ph);
+                    $('#total_glycemic_load').val(total_glycemic_load);
+                });
+            }
+
+            $('.create-meal').click(function () {
+                var form = $('.create_meal_form');
+
+                $.ajax({
+                    type: "POST",
+                    url: "/day/create-meals",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}'
+                    },
+                    data: form.serialize(),
+                    success: function (data) {
+                        $('.errors').empty()
+                        $('.success').empty()
+                        $('.success').append(`<span>${data.msg}</span>`)
+                        setTimeout(function () {
+                            $('.success').empty();
+                        }, 5000);
+
+                        $("input[name='name']").val('');
+                        $("input[name='total_mass']").val('');
+                        $("input[name='total_carbs']").val('');
+                        $("input[name='total_fat']").val('');
+                        $("input[name='total_proteins']").val('');
+                        $("input[name='total_calories']").val('');
+                        $("input[name='total_ph']").val('');
+                        $("input[name='total_glycemic_load']").val('');
+
+                        $('.foods').empty()
+                        $('.foods').append(`<button type="button" class="btn btn-success col-md-2 m-b-20 plus"
+                                                    style=" height: 200px;width: 200px;">
+                                                <i class="fa fa-plus" style="font-size: 100px;"></i></button>`)
+                    },
+                    error: function (reject) {
+                        $('.errors').empty()
+                        $('.success').empty()
+                        if (reject.status === 422) {
+                            var err = $.parseJSON(reject.responseText);
+                            $.each(err.errors, function (key, val) {
+                                $('.errors').append(`<li>${val[0]}</li>`)
+                            });
+                        }
+                        setTimeout(function () {
+                            $('.errors').empty();
+                        }, 10000);
+                    }
+                });
+
+            })
+
+        })
+    </script>
+
 @endpush
 
 @push('header')

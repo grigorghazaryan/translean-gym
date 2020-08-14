@@ -53,7 +53,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
 
     Route::get('/day/{id}', 'DayController@index');
     Route::post('/day/add-activity', 'DayController@addActivity');
+
     Route::post('/day/add-meals', 'DayController@addMeal');
+    Route::post('/day/create-meals', 'DayController@createMeal');
+
     Route::post('/day/get-all-data', 'DayController@getAllData');
 
 

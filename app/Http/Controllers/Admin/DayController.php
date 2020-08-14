@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Model\Activity;
 use App\Model\DayActivity;
 use App\Model\DayMeal;
+use App\Model\Food;
 use App\Model\Meal;
 use App\Model\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DayController extends Controller
 {
@@ -24,9 +26,10 @@ class DayController extends Controller
         $user = User::find($id);
         $meals = Meal::all();
         $activity = Activity::all();
+        $foods = Food::all();
         $title = self::TITLE;
 
-        return view(self::FOLDER . ".index", compact('user', 'title', 'activity', 'meals'));
+        return view(self::FOLDER . ".index", compact('user', 'title', 'activity', 'meals', 'foods'));
     }
 
     /**
@@ -61,6 +64,45 @@ class DayController extends Controller
         $data->save();
 
         return response()->json(['success' => "Your meal has been saved."], 200);
+    }
+
+    public function createMeal(Request $request)
+    {
+        $data = $request->all();
+        $request->validate([
+            "name" => "required",
+            "food" => "required|array|min:1",
+            "mass" => "required|array|min:1",
+            "total_mass" => "required|numeric",
+            "total_carbs" => "required|numeric",
+            "total_fat" => "required|numeric",
+            "total_proteins" => "required|numeric",
+            "total_calories" => "required|numeric",
+            "total_ph" => "required|numeric",
+            "total_glycemic_load" => "required|numeric",
+        ]);
+
+        DB::beginTransaction();
+        $meal = new Meal;
+        $meal->name = $data['name'];
+        $meal->mass = $data['total_mass'];
+        $meal->carbs = $data['total_carbs'];
+        $meal->fat = $data['total_fat'];
+        $meal->proteins = $data['total_proteins'];
+        $meal->calories = $data['total_calories'];
+        $meal->ph = $data['total_ph'];
+        $meal->glycemic_load = $data['total_glycemic_load'];
+        $meal->save();
+
+        $arr = array();
+        foreach ($data['food'] as $bin => $key) {
+            $arr[$bin]['meal_id'] = $meal->id;
+            $arr[$bin]['food_id'] = $key;
+            $arr[$bin]['mass'] = $data['mass'][$bin];
+        }
+        $meal->attachedFoods()->createMany($arr);
+        DB::commit();
+        return response()->json(array('msg' => 'Successfully Form Submit', 'status' => true));
     }
 
     /**
