@@ -56,6 +56,8 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
 
     Route::post('/day/add-meals', 'DayController@addMeal');
     Route::post('/day/create-meals', 'DayController@createMeal');
+    Route::post('/day/get-meal-ajax', 'DayController@getMealAjax');
+
 
     Route::post('/day/get-all-data', 'DayController@getAllData');
 

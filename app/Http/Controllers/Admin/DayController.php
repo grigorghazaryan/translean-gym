@@ -66,6 +66,10 @@ class DayController extends Controller
         return response()->json(['success' => "Your meal has been saved."], 200);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createMeal(Request $request)
     {
         $data = $request->all();
@@ -123,5 +127,12 @@ class DayController extends Controller
         );
 
         return response()->json($data, 200);
+    }
+
+    public function getMealAjax(Request $request)
+    {
+        $id = $request->id;
+        $meal = Meal::with('attachedFoods','foods')->where('id', $id)->first();
+        return response()->json($meal);
     }
 }
