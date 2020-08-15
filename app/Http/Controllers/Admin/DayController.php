@@ -55,6 +55,7 @@ class DayController extends Controller
      */
     public function addMeal(Request $request)
     {
+        dd($request->all());
         $data = new DayMeal();
         $data->user_id = $request->id;
         $data->meal_id = $request->meal;
@@ -106,7 +107,7 @@ class DayController extends Controller
         }
         $meal->attachedFoods()->createMany($arr);
         DB::commit();
-        return response()->json(array('msg' => 'Successfully Form Submit', 'status' => true));
+        return response()->json(array('msg' => 'Successfully Form Submit', 'status' => true, 'meal' => $meal));
     }
 
     /**
