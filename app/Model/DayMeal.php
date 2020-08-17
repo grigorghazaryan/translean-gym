@@ -11,6 +11,6 @@ class DayMeal extends Model
      */
     public function getMeals()
     {
-        return $this->hasOne("App\Model\Meal", "id", "meal_id");
+        return $this->hasOne("App\Model\PersonalMeal", "id", "personal_meal_id");
     }
 }

@@ -8,6 +8,7 @@ use App\Model\DayActivity;
 use App\Model\DayMeal;
 use App\Model\Food;
 use App\Model\Meal;
+use App\Model\PersonalMeal;
 use App\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -55,14 +56,52 @@ class DayController extends Controller
      */
     public function addMeal(Request $request)
     {
-        dd($request->all());
-        $data = new DayMeal();
-        $data->user_id = $request->id;
-        $data->meal_id = $request->meal;
-        $data->date = $request->date;
-        $data->from = $request->from;
-        $data->to = $request->to;
-        $data->save();
+        $data = $request->all();
+        $request->validate([
+            "meal" => "required",
+            "food" => "required|array|min:1",
+            "mass" => "required|array|min:1",
+            "total_mass" => "required|numeric",
+            "total_carbs" => "required|numeric",
+            "total_fat" => "required|numeric",
+            "total_proteins" => "required|numeric",
+            "total_calories" => "required|numeric",
+            "total_ph" => "required|numeric",
+            "total_glycemic_load" => "required|numeric",
+        ]);
+        $meal_name = Meal::where('id', $request->meal)->first()->name;
+
+        DB::beginTransaction();
+
+        $personal_meal = new PersonalMeal;
+        $personal_meal->name = $meal_name;
+        $personal_meal->mass = $data['total_mass'];
+        $personal_meal->carbs = $data['total_carbs'];
+        $personal_meal->fat = $data['total_fat'];
+        $personal_meal->proteins = $data['total_proteins'];
+        $personal_meal->calories = $data['total_calories'];
+        $personal_meal->ph = $data['total_ph'];
+        $personal_meal->glycemic_load = $data['total_glycemic_load'];
+        $personal_meal->save();
+
+        $arr = array();
+        foreach ($data['food'] as $bin => $key) {
+            $arr[$bin]['personal_meal_id'] = $personal_meal->id;
+            $arr[$bin]['food_id'] = $key;
+            $arr[$bin]['mass'] = $data['mass'][$bin];
+        }
+
+        $personal_meal->attachedFoods()->createMany($arr);
+
+        $dayMeal = new DayMeal;
+        $dayMeal->user_id = $data['id'];
+        $dayMeal->personal_meal_id = $personal_meal->id;
+        $dayMeal->date = $data['date'];
+        $dayMeal->from = $data['from'];
+        $dayMeal->to = $data['to'];
+        $dayMeal->save();
+
+        DB::commit();
 
         return response()->json(['success' => "Your meal has been saved."], 200);
     }
@@ -133,7 +172,7 @@ class DayController extends Controller
     public function getMealAjax(Request $request)
     {
         $id = $request->id;
-        $meal = Meal::with('attachedFoods','foods')->where('id', $id)->first();
+        $meal = Meal::with('attachedFoods', 'foods')->where('id', $id)->first();
         return response()->json($meal);
     }
 }

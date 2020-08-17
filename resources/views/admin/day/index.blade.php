@@ -215,7 +215,13 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade active in" id="personal">
+                            <div class="m_success text-success"></div>
+                            <div class=" text-danger">
+                                <ul class="m_errors"></ul>
+                            </div>
                             <form class="add-personal-meal-form">
+                                <input type="hidden" class="user_id" name="id" value="{{$user->id}}">
+                                <input type="hidden" class="meal_date" name="date">
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label for="activity_list">Choose Meal</label>
@@ -507,6 +513,8 @@
 
             $('.add-personal-meal').click(function () {
                 var form = $('.add-personal-meal-form');
+                $('.meal_date').val($('.date-show').html())
+
                 $.ajax({
                     type: "POST",
                     url: "/day/add-meals",
@@ -516,9 +524,22 @@
                     data: form.serialize(),
                     success: function (data) {
                         console.log(data)
-                        //  $('#meal').modal('toggle');
-                        // let date = $('.date-show').html()
-                        // show_date(0, date);
+                        $('#meal').modal('toggle');
+                        let date = $('.date-show').html()
+                        show_date(0, date);
+                    },
+                    error: function (reject) {
+                        $('.m_errors').empty()
+                        $('.m_success').empty()
+                        if (reject.status === 422) {
+                            var err = $.parseJSON(reject.responseText);
+                            $.each(err.errors, function (key, val) {
+                                $('.m_errors').append(`<li>${val[0]}</li>`)
+                            });
+                        }
+                        setTimeout(function () {
+                            $('.m_errors').empty();
+                        }, 10000);
                     }
                 })
             })

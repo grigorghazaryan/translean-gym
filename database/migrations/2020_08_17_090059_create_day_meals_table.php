@@ -16,14 +16,14 @@ class CreateDayMealsTable extends Migration
         Schema::create('day_meals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('meal_id');
+            $table->unsignedBigInteger('personal_meal_id');
             $table->string('date')->index();
             $table->string('from');
             $table->string('to');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('personal_meal_id')->references('id')->on('personal_meals')->onDelete('cascade')->onUpdate('cascade');
 
         });
     }
