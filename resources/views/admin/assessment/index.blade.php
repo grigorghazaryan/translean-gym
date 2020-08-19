@@ -94,6 +94,24 @@
                     <input type="hidden" class="type" name="type">
                     <input type="hidden" class="id" name="id" value="{{$user->id}}">
 
+
+                    <div class="row form-inline">
+                        <div class="col-md-6">
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>User Height (cm)</label>
+                                <input type="text" class="form-control" disabled value="{{$user->height}}" >
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group col-md-12 m-b-20">
+                                <label>User Age</label>
+                                <input type="text" class="form-control" disabled value="{{\Carbon\Carbon::parse($user->dob)->age}}" >
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
                     <div class="row form-inline">
                         <div class="col-md-6">
                             <div class="form-group col-md-12 m-b-20">
@@ -525,7 +543,6 @@
 
                     }
 
-                    console.log(labels, data, projection_data)
                     new Chart(document.getElementById("myChart"),
                         {
                             "type": "line",

@@ -24,7 +24,7 @@
                                 @error('met')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="met"
+                                <input type="number" class="form-control" id="met" step="any"
                                        placeholder="Met" name="met" value="{{old('met')}}">
                             </div>
 
@@ -33,7 +33,7 @@
                                 @error('carb_ratio')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="carb_ratio"
+                                <input type="number" class="form-control" step="any" id="carb_ratio"
                                        placeholder="Carb-Ratio" name="carb_ratio" value="{{old('carb_ratio')}}">
                             </div>
 
@@ -42,7 +42,7 @@
                                 @error('fat_ratio')
                                 <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
                                 @enderror
-                                <input type="number" class="form-control" id="fat_ratio"
+                                <input type="number" class="form-control" id="fat_ratio" step="any"
                                        placeholder="Fat-Ratio" name="fat_ratio" value="{{old('fat_ratio')}}">
                             </div>
 
