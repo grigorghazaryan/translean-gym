@@ -49,6 +49,7 @@ class UserController extends Controller
             "dob" => "required",
             "gender" => "required|numeric",
             "height" => "required|numeric",
+            "dimmer" => "required|numeric",
         ]);
 
         $user = new User;
@@ -56,6 +57,7 @@ class UserController extends Controller
         $user->dob = $request->dob;
         $user->gender = $request->gender;
         $user->height = $request->height;
+        $user->dimmer = $request->dimmer;
         $user->save();
 
         return redirect(self::ROUTE);
@@ -97,12 +99,14 @@ class UserController extends Controller
             "dob" => "required",
             "gender" => "required|numeric",
             "height" => "required|numeric",
+            "dimmer" => "required|numeric",
         ]);
 
         $user->name = $request->name;
         $user->dob = $request->dob;
         $user->gender = $request->gender;
         $user->height = $request->height;
+        $user->dimmer = $request->dimmer;
         $user->save();
 
         return redirect(self::ROUTE);

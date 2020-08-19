@@ -49,6 +49,15 @@
                                        placeholder="Height" name="height" value="{{old('height')}}">
                             </div>
 
+                            <div class="form-group">
+                                <label for="dimmer">Dimmer</label>
+                                @error('dimmer')
+                                <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
+                                @enderror
+                                <input type="number" class="form-control" id="dimmer" step="any"
+                                       placeholder="Dimmer" name="dimmer" value="{{old('dimmer')}}">
+                            </div>
+
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
                                 Save {{$title}}
                             </button>

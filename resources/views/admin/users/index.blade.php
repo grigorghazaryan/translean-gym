@@ -21,6 +21,7 @@
                             <th>Date of Birth</th>
                             <th>Gender</th>
                             <th>Height (sm) </th>
+                            <th>Dimmer </th>
                             <th>Options</th>
                         </tr>
                         </thead>
@@ -35,6 +36,7 @@
                                     {{App\Model\User::GENDER[$val->gender]}}
                                 </td>
                                 <td>{{$val->height}}</td>
+                                <td>{{$val->dimmer}}</td>
                                 <td>
 
                                     <a href="{{"/assessments/".$val->id}}" data-toggle="tooltip"
