@@ -102,10 +102,20 @@
                         <span class="hide-menu">Meals</span></a>
                 </li>
 
-                <li><a href="/settings" class="waves-effect"><i class="mdi mdi-settings fa-fw"></i>
-                        <span class="hide-menu">Settings</span></a>
+                <li>
+                    <a href="javascript:void(0);" class="waves-effect">
+                        <i class="mdi mdi-settings fa-fw"></i>
+                            <span class="hide-menu">
+                                Settings
+                                <span class="fa arrow"></span>
+                            </span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="/met-range" class="waves-effect"><i class="mdi mdi-run-fast fa-fw"></i>
+                                <span class="hide-menu">MET Ranges</span></a>
+                        </li>
+                    </ul>
                 </li>
-
             </ul>
         </div>
     </div>

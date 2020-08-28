@@ -17,12 +17,9 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Date of Birth</th>
-                            <th>Gender</th>
-                            <th>Height (sm) </th>
-                            <th>Dimmer </th>
-                            <th>Protein Hourly Limit </th>
+                            <th>Lower Limit</th>
+                            <th>Upper Limit</th>
+                            <th>Met Variable</th>
                             <th>Options</th>
                         </tr>
                         </thead>
@@ -31,26 +28,10 @@
                         @foreach($data as $key=>$val)
                             <tr>
                                 <td>{{$key + 1}}</td>
-                                <td>{{$val->name}}</td>
-                                <td>{{$val->dob}}</td>
+                                <td>{{$val->lower_limit}}</td>
+                                <td>{{$val->upper_limit}}</td>
+                                <td>{{$val->met_variable}}</td>
                                 <td>
-                                    {{App\Model\User::GENDER[$val->gender]}}
-                                </td>
-                                <td>{{$val->height}}</td>
-                                <td>{{$val->dimmer}}</td>
-                                <td>{{$val->protein_hourly_limit}}</td>
-                                <td>
-
-                                    <a href="{{"/assessments/".$val->id}}" data-toggle="tooltip"
-                                       data-placement="top" title="Assessments" class="btn btn-warning btn-circle tooltip-warning">
-                                        <i class="fas fa-sort-amount-up"></i>
-                                    </a>
-
-                                    <a href="{{"/day/".$val->id}}" data-toggle="tooltip"
-                                       data-placement="top" title="Day View" class="btn btn-success btn-circle tooltip-success">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-
                                     <a href="{{$route."/".$val->id."/edit"}}" data-toggle="tooltip"
                                        data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info">
                                         <i class="fas fa-edit"></i>

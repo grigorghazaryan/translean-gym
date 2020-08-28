@@ -50,6 +50,7 @@ class UserController extends Controller
             "gender" => "required|numeric",
             "height" => "required|numeric",
             "dimmer" => "required|numeric",
+            "protein_hourly_limit" => "required|numeric",
         ]);
 
         $user = new User;
@@ -58,6 +59,7 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $user->height = $request->height;
         $user->dimmer = $request->dimmer;
+        $user->protein_hourly_limit = $request->protein_hourly_limit;
         $user->save();
 
         return redirect(self::ROUTE);
@@ -100,6 +102,7 @@ class UserController extends Controller
             "gender" => "required|numeric",
             "height" => "required|numeric",
             "dimmer" => "required|numeric",
+            "protein_hourly_limit" => "required|numeric",
         ]);
 
         $user->name = $request->name;
@@ -107,6 +110,7 @@ class UserController extends Controller
         $user->gender = $request->gender;
         $user->height = $request->height;
         $user->dimmer = $request->dimmer;
+        $user->protein_hourly_limit = $request->protein_hourly_limit;
         $user->save();
 
         return redirect(self::ROUTE);

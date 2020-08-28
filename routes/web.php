@@ -38,7 +38,6 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::resource('/activities', 'ActivityController');
     Route::resource('/foods', 'FoodController');
     Route::resource('/meals', 'MealController');
-    Route::resource('/settings', 'AdminsController');
 
     Route::get('/assessments/{id}', 'UserAssessmentsController@index');
     Route::post('/assessments/{id}', 'UserAssessmentsController@store');
@@ -58,9 +57,9 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::post('/day/create-meals', 'DayController@createMeal');
     Route::post('/day/get-meal-ajax', 'DayController@getMealAjax');
 
-
     Route::post('/day/get-all-data', 'DayController@getAllData');
 
 
+    Route::resource('/met-range', 'MetRangeController');
 
 });

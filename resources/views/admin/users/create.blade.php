@@ -58,6 +58,15 @@
                                        placeholder="Dimmer" name="dimmer" value="{{old('dimmer')}}">
                             </div>
 
+                            <div class="form-group">
+                                <label for="protein_hourly_limit">Protein Hourly Limit</label>
+                                @error('protein_hourly_limit')
+                                <p class="invalid-feedback text-danger" role="alert"><strong>{{ $message }}</strong></p>
+                                @enderror
+                                <input type="number" class="form-control" id="protein_hourly_limit" step="any"
+                                       placeholder="Protein Hourly Limit" name="protein_hourly_limit" value="{{old('protein_hourly_limit')}}">
+                            </div>
+
                             <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
                                 Save {{$title}}
                             </button>
