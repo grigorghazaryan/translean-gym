@@ -26,6 +26,14 @@
                                     </span>
                                 </div>
                             </div>
+                            <div style="position:absolute; right: 0%;">
+                                <h5>Protein` </h5>
+                                <div>
+                                    <span class="protein_eat">0</span>
+                                    /
+                                    <span class="protein_must">0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -640,19 +648,20 @@
                             });
 
                         }
+
                         for (var j = 0; j < from.length; j++) {
                             $('.act_' + from[j]).attr('style', `height: ${50 * (to[j] - from[j] + 1)}px !important`);
                             $('.act_' + from[j]).find('.green').html(res.activity[j].get_activity.name);
                             $('.act_' + from[j]).find('.edit').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.activity[j].id}"></i>`)
 
                             $('.eng_' + from[j]).attr('style', `height: ${50 * (to[j] - from[j] + 1)}px !important`)
-                            $('.eng_' + from[j]).html(`<td class="energy_total">${res.activity[j].get_activity.met}</td>
-                                                       <td class="energy_fat_p">${res.activity[j].get_activity.fat_ratio}</td>
-                                                       <td class="energy_fat_c">${res.activity[j].get_activity.fat_ratio}</td>
-                                                       <td class="energy_fat_g">${res.activity[j].get_activity.fat_ratio}</td>
-                                                       <td class="energy_carb_p">${res.activity[j].get_activity.carb_ratio}</td>
-                                                       <td class="energy_carb_c">${res.activity[j].get_activity.carb_ratio}</td>
-                                                       <td class="energy_carb_g">${res.activity[j].get_activity.carb_ratio}</td>`);
+                            $('.eng_' + from[j]).html(`<td class="energy_total">${res.activity[j].get_activity.met + 10}</td>
+                                                       <td class="energy_fat_p">${res.activity[j].get_activity.fat_ratio + 22}</td>
+                                                       <td class="energy_fat_c">${res.activity[j].get_activity.fat_ratio + 21}</td>
+                                                       <td class="energy_fat_g">${res.activity[j].get_activity.fat_ratio + 23}</td>
+                                                       <td class="energy_carb_p">${res.activity[j].get_activity.carb_ratio + 24}</td>
+                                                       <td class="energy_carb_c">${res.activity[j].get_activity.carb_ratio + 11}</td>
+                                                       <td class="energy_carb_g">${res.activity[j].get_activity.carb_ratio + 18}</td>`);
 
                             var result = to[j] - from[j];
                             var c = from[j];
@@ -682,12 +691,12 @@
                             $('.meal_' + m_from[h]).find('.edit_m').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.meal[h].id}"></i>`)
 
                             $('.int_' + m_from[h]).attr('style', `height: ${50 * (m_to[h] - m_from[h] + 1)}px !important`)
-                            $('.int_' + m_from[h]).html(` <td class="intake_fat_g">${res.meal[h].get_meals.fat}</td>
-                                                        <td class="intake_fat_d">${res.meal[h].get_meals.fat}</td>
-                                                        <td class="intake_carb_g">${res.meal[h].get_meals.carbs}</td>
-                                                        <td class="intake_carb_d">${res.meal[h].get_meals.carbs}</td>
-                                                        <td class="intake_protein_g">${res.meal[h].get_meals.proteins}</td>
-                                                        <td class="intake_protein_d">${res.meal[h].get_meals.proteins}</td>`);
+                            $('.int_' + m_from[h]).html(` <td class="intake_fat_g">${res.meal[h].get_meals.fat + 5}</td>
+                                                        <td class="intake_fat_d">${res.meal[h].get_meals.fat + 20}</td>
+                                                        <td class="intake_carb_g">${res.meal[h].get_meals.carbs + 12}</td>
+                                                        <td class="intake_carb_d">${res.meal[h].get_meals.carbs + 13}</td>
+                                                        <td class="intake_protein_g">${res.meal[h].get_meals.proteins + 20}</td>
+                                                        <td class="intake_protein_d">${res.meal[h].get_meals.proteins + 1}</td>`);
 
                             var m_result = m_to[h] - m_from[h];
                             var m = m_from[h];
@@ -699,6 +708,12 @@
                         }
 
                         // --------------------------------------------------------
+                        var p_met = 0;
+                        for (var z = 0; z < res.activity.length; z++){
+                            p_met += res.activity[z].get_activity.met*60/6;
+                        }
+                        $('.protein_eat').html(p_met)
+                        $('.protein_must').html(p_met+30)
 
                     }
                 });
