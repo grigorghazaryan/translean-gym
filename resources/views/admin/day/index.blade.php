@@ -715,7 +715,7 @@
                         // --------------------------------------------------------
                         var p_met = 0;
                         for (var z = 0; z < res.meal.length; z++){
-                            p_met += res.meal[z].get_meals.proteins
+                            p_met += parseFloat(res.meal[z].get_meals.proteins)
 
                         }
                         $('.protein_eat').html(p_met);
