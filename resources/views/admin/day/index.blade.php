@@ -179,7 +179,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="activity_from">From</label>
-                            <input type="text" class="clockpicker activity_from form-control">
+                            <input type="text" class="activity_from clockpicker form-control">
                         </div>
 
                         <div class="form-group">
@@ -422,16 +422,20 @@
         $(document).ready(function () {
             $('.activity_from').clockpicker({
                 autoclose: true,
+                placement: 'bottom',
             });
             $('.activity_to').clockpicker({
                 autoclose: true,
+                placement: 'top',
             });
 
             $('.meal_from').clockpicker({
                 autoclose: true,
+                placement: 'top',
             });
             $('.meal_to').clockpicker({
                 autoclose: true,
+                placement: 'top',
             });
         });
     </script>
@@ -655,13 +659,13 @@
                             $('.act_' + from[j]).find('.edit').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.activity[j].id}"></i>`)
 
                             $('.eng_' + from[j]).attr('style', `height: ${50 * (to[j] - from[j] + 1)}px !important`)
-                            $('.eng_' + from[j]).html(`<td class="energy_total">${res.activity[j].get_activity.met + 10}</td>
-                                                       <td class="energy_fat_p">${res.activity[j].get_activity.fat_ratio + 22}</td>
-                                                       <td class="energy_fat_c">${res.activity[j].get_activity.fat_ratio + 21}</td>
-                                                       <td class="energy_fat_g">${res.activity[j].get_activity.fat_ratio + 23}</td>
-                                                       <td class="energy_carb_p">${res.activity[j].get_activity.carb_ratio + 24}</td>
-                                                       <td class="energy_carb_c">${res.activity[j].get_activity.carb_ratio + 11}</td>
-                                                       <td class="energy_carb_g">${res.activity[j].get_activity.carb_ratio + 18}</td>`);
+                            $('.eng_' + from[j]).html(`<td class="energy_total">${res.activity[j].get_activity.met}</td>
+                                                       <td class="energy_fat_p">${res.activity[j].get_activity.fat_ratio}</td>
+                                                       <td class="energy_fat_c">${res.activity[j].get_activity.fat_ratio}</td>
+                                                       <td class="energy_fat_g">${res.activity[j].get_activity.fat_ratio}</td>
+                                                       <td class="energy_carb_p">${res.activity[j].get_activity.carb_ratio}</td>
+                                                       <td class="energy_carb_c">${res.activity[j].get_activity.carb_ratio}</td>
+                                                       <td class="energy_carb_g">${res.activity[j].get_activity.carb_ratio}</td>`);
 
                             var result = to[j] - from[j];
                             var c = from[j];
@@ -685,18 +689,19 @@
                                 }
                             });
                         }
+
                         for (var h = 0; h < m_from.length; h++) {
                             $('.meal_' + m_from[h]).attr('style', `height: ${50 * (m_to[h] - m_from[h] + 1)}px !important`);
                             $('.meal_' + m_from[h]).find('.red').html(res.meal[h].get_meals.name);
                             $('.meal_' + m_from[h]).find('.edit_m').html(`<i class="fas fa-edit" aria-hidden="true" data-activity-id="${res.meal[h].id}"></i>`)
 
                             $('.int_' + m_from[h]).attr('style', `height: ${50 * (m_to[h] - m_from[h] + 1)}px !important`)
-                            $('.int_' + m_from[h]).html(` <td class="intake_fat_g">${res.meal[h].get_meals.fat + 5}</td>
-                                                        <td class="intake_fat_d">${res.meal[h].get_meals.fat + 20}</td>
-                                                        <td class="intake_carb_g">${res.meal[h].get_meals.carbs + 12}</td>
-                                                        <td class="intake_carb_d">${res.meal[h].get_meals.carbs + 13}</td>
-                                                        <td class="intake_protein_g">${res.meal[h].get_meals.proteins + 20}</td>
-                                                        <td class="intake_protein_d">${res.meal[h].get_meals.proteins + 1}</td>`);
+                            $('.int_' + m_from[h]).html(` <td class="intake_fat_g">${res.meal[h].get_meals.fat}</td>
+                                                        <td class="intake_fat_d">${parseFloat(res.meal[h].get_meals.fat) / 4}</td>
+                                                        <td class="intake_carb_g">${res.meal[h].get_meals.carbs}</td>
+                                                        <td class="intake_carb_d"></td>
+                                                        <td class="intake_protein_g">${res.meal[h].get_meals.proteins}</td>
+                                                        <td class="intake_protein_d">${parseFloat(res.meal[h].get_meals.proteins) / 4}</td>`);
 
                             var m_result = m_to[h] - m_from[h];
                             var m = m_from[h];
@@ -709,12 +714,11 @@
 
                         // --------------------------------------------------------
                         var p_met = 0;
-                        for (var z = 0; z < res.activity.length; z++){
-                            p_met += res.activity[z].get_activity.met*60/6;
-                        }
-                        $('.protein_eat').html(p_met)
-                        $('.protein_must').html(p_met+30)
+                        for (var z = 0; z < res.meal.length; z++){
+                            p_met += res.meal[z].get_meals.proteins
 
+                        }
+                        $('.protein_eat').html(p_met);
                     }
                 });
             }
@@ -1074,6 +1078,7 @@
 @push('header')
     <link href="{{asset('assets/plugins/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/plugins/datepicker-new/css/bootstrap-datepicker.css')}}" rel="stylesheet">
+
     <style>
         .clockpicker-popover {
             z-index: 99999;

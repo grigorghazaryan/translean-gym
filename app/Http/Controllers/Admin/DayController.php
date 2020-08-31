@@ -10,6 +10,8 @@ use App\Model\Food;
 use App\Model\Meal;
 use App\Model\PersonalMeal;
 use App\Model\User;
+use App\Model\UserAssessments;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,12 +27,13 @@ class DayController extends Controller
     public function index($id)
     {
         $user = User::find($id);
+        $assessment = UserAssessments::where(["id" => $user->id, "type" => 1])->first();
         $meals = Meal::all();
         $activity = Activity::all();
         $foods = Food::all();
         $title = self::TITLE;
 
-        return view(self::FOLDER . ".index", compact('user', 'title', 'activity', 'meals', 'foods'));
+        return view(self::FOLDER . ".index", compact('user', 'title', 'activity', 'meals', 'foods', 'assessment'));
     }
 
     /**
@@ -39,6 +42,10 @@ class DayController extends Controller
      */
     public function addActivity(Request $request)
     {
+        $from = Carbon::createFromFormat('H:i', $request->from);
+        $to = Carbon::createFromFormat('H:i', $request->to);
+        $diff_in_minutes = $to->diffInMinutes($from);
+
         $data = new DayActivity();
         $data->user_id = $request->id;
         $data->activity_id = $request->activity;
