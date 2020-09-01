@@ -719,6 +719,7 @@
 
                         }
                         $('.protein_eat').html(p_met);
+                        $('.protein_must').html(res.protein_must_eat);
                     }
                 });
             }

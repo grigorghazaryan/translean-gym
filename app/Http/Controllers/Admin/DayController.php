@@ -8,6 +8,7 @@ use App\Model\DayActivity;
 use App\Model\DayMeal;
 use App\Model\Food;
 use App\Model\Meal;
+use App\Model\MetRange;
 use App\Model\PersonalMeal;
 use App\Model\User;
 use App\Model\UserAssessments;
@@ -27,13 +28,12 @@ class DayController extends Controller
     public function index($id)
     {
         $user = User::find($id);
-        $assessment = UserAssessments::where(["id" => $user->id, "type" => 1])->first();
         $meals = Meal::all();
         $activity = Activity::all();
         $foods = Food::all();
         $title = self::TITLE;
 
-        return view(self::FOLDER . ".index", compact('user', 'title', 'activity', 'meals', 'foods', 'assessment'));
+        return view(self::FOLDER . ".index", compact('user', 'title', 'activity', 'meals', 'foods'));
     }
 
     /**
@@ -42,10 +42,6 @@ class DayController extends Controller
      */
     public function addActivity(Request $request)
     {
-        $from = Carbon::createFromFormat('H:i', $request->from);
-        $to = Carbon::createFromFormat('H:i', $request->to);
-        $diff_in_minutes = $to->diffInMinutes($from);
-
         $data = new DayActivity();
         $data->user_id = $request->id;
         $data->activity_id = $request->activity;
@@ -168,9 +164,28 @@ class DayController extends Controller
         $activity = DayActivity::with('getActivity')->where(["user_id" => $user_id, "date" => $date])->get();
         $meals = DayMeal::with('getMeals')->where(["user_id" => $user_id, "date" => $date])->get();
 
+        $total_prot_met = 0;
+        foreach ($activity as $key => $val) {
+            $from = Carbon::createFromFormat('H:i', $val->from);
+            $to = Carbon::createFromFormat('H:i', $val->to);
+            $diff_in_minutes = $to->diffInMinutes($from);
+            $total_prot_met += ($diff_in_minutes * $val->getActivity->met);
+        }
+
+        $met_variable = MetRange::where('lower_limit', '<=', $total_prot_met)
+            ->where('upper_limit', '>=', $total_prot_met)->first();
+
+        $assessment = UserAssessments::where(["user_id" => $user_id, "type" => 1])->first();
+
+        $protein_must_eat = 0;
+        if ($assessment != null and $met_variable != null){
+            $protein_must_eat = $met_variable->met_variable * $assessment->lean_mass;
+        }
+
         $data = array(
             'activity' => $activity,
             'meal' => $meals,
+            'protein_must_eat' => $protein_must_eat,
         );
 
         return response()->json($data, 200);
