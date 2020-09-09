@@ -639,6 +639,7 @@
                     url: '{{ url('/day/get-all-data') }}',
                     data: data,
                     success: function (res) {
+                        console.log(res)
                         var from = [];
                         var to = [];
                         for (var i = 0; i < res.activity.length; i++) {

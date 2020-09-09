@@ -178,7 +178,7 @@ class DayController extends Controller
         $assessment = UserAssessments::where(["user_id" => $user_id, "type" => 1])->first();
 
         $protein_must_eat = 0;
-        if ($assessment != null and $met_variable != null){
+        if ($assessment != null and $met_variable != null) {
             $protein_must_eat = $met_variable->met_variable * $assessment->lean_mass;
         }
 
@@ -197,4 +197,20 @@ class DayController extends Controller
         $meal = Meal::with('attachedFoods', 'foods')->where('id', $id)->first();
         return response()->json($meal);
     }
+
+
+//    test part
+
+    public function testIndex($id)
+    {
+        $user = User::find($id);
+        $meals = Meal::all();
+        $activity = Activity::all();
+        $foods = Food::all();
+        $title = self::TITLE;
+
+        return view(self::FOLDER . ".test", compact('user', 'title', 'activity', 'meals', 'foods'));
+    }
+
+
 }

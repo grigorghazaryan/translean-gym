@@ -51,6 +51,11 @@
                                         <i class="fas fa-eye"></i>
                                     </a>
 
+                                    <a href="{{"/day-test/".$val->id}}" data-toggle="tooltip"
+                                       data-placement="top" title="Day View Test" class="btn btn-success btn-circle tooltip-success">
+                                        <i class="fas fa-user-ninja"></i>
+                                    </a>
+
                                     <a href="{{$route."/".$val->id."/edit"}}" data-toggle="tooltip"
                                        data-placement="top" title="Edit" class="btn btn-info btn-circle tooltip-info">
                                         <i class="fas fa-edit"></i>
